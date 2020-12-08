@@ -1,7 +1,8 @@
+-- init
 local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
 
 -- services
-local mouse = player:GetMouse()
 local input = game:GetService("UserInputService")
 local run = game:GetService("RunService")
 local tween = game:GetService("TweenService")
@@ -11,6 +12,7 @@ local tweeninfo = TweenInfo.new
 local utility = {}
 
 -- themes
+local objects = {}
 local themes = {
 	Background = Color3.fromRGB(24, 24, 24), 
 	Glow = Color3.fromRGB(0, 0, 0), 
@@ -19,7 +21,6 @@ local themes = {
 	DarkContrast = Color3.fromRGB(14, 14, 14),  
 	TextColor = Color3.fromRGB(255, 255, 255)
 }
-local objects = {}
 
 do
 	function utility:Create(instance, properties, children)
@@ -33,7 +34,7 @@ do
 				
 				if theme then
 					objects[theme] = objects[theme] or {}
-					objects[theme][i] = objects[theme][i] or setmetatable({}, {_mode = "k"}) -- weak table
+					objects[theme][i] = objects[theme][i] or setmetatable({}, {_mode = "k"})
 					
 					table.insert(objects[theme][i], object)
 				end
@@ -92,7 +93,7 @@ do
 		clone:ClearAllChildren()
 		
 		object.ImageTransparency = 1
-		utility:Tween(clone, {Size = object.Size}, 0.2) -- trying 0.4
+		utility:Tween(clone, {Size = object.Size}, 0.2)
 		
 		spawn(function()
 			wait(0.2)
@@ -108,8 +109,8 @@ do
 		self.keybinds = {}
 		self.ended = {}
 		
-		input.InputBegan:Connect(function(key, processed)
-			if self.keybinds[key.KeyCode] and not processed then
+		input.InputBegan:Connect(function(key)
+			if self.keybinds[key.KeyCode] then
 				for i, bind in pairs(self.keybinds[key.KeyCode]) do
 					bind()
 				end
@@ -210,13 +211,12 @@ do
 	
 	-- new classes
 	
-	function library.new(title, icon)
-		-- base ui 
+	function library.new(title)
 		local container = utility:Create("ScreenGui", {
 			Name = title,
-			Parent = game.Players.LocalPlayer.PlayerGui--game.CoreGui
+			Parent = game.CoreGui
 		}, {
-			utility:Create("ImageLabel", { -- main
+			utility:Create("ImageLabel", {
 				Name = "Main",
 				BackgroundTransparency = 1,
 				Position = UDim2.new(0.25, 0, 0.052435593, 0),
@@ -226,7 +226,7 @@ do
 				ScaleType = Enum.ScaleType.Slice,
 				SliceCenter = Rect.new(4, 4, 296, 296)
 			}, {
-				utility:Create("ImageLabel", { -- glow
+				utility:Create("ImageLabel", {
 					Name = "Glow",
 					BackgroundTransparency = 1,
 					Position = UDim2.new(0, -15, 0, -15),
@@ -237,7 +237,7 @@ do
 					ScaleType = Enum.ScaleType.Slice,
 					SliceCenter = Rect.new(24, 24, 276, 276)
 				}),
-				utility:Create("ImageLabel", { -- pages
+				utility:Create("ImageLabel", {
 					Name = "Pages",
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
@@ -249,7 +249,7 @@ do
 					ScaleType = Enum.ScaleType.Slice,
 					SliceCenter = Rect.new(4, 4, 296, 296)
 				}, {
-					utility:Create("ScrollingFrame", { -- pages frame
+					utility:Create("ScrollingFrame", {
 						Name = "Pages_Container",
 						Active = true,
 						BackgroundTransparency = 1,
@@ -264,7 +264,7 @@ do
 						})
 					})
 				}),
-				utility:Create("ImageLabel", { -- topbar
+				utility:Create("ImageLabel", {
 					Name = "TopBar",
 					BackgroundTransparency = 1,
 					ClipsDescendants = true,
@@ -303,7 +303,7 @@ do
 	end
 	
 	function page.new(library, title, icon)
-		local button = utility:Create("TextButton", { -- button
+		local button = utility:Create("TextButton", {
 			Name = title,
 			Parent = library.pagesContainer,
 			BackgroundTransparency = 1,
@@ -315,7 +315,7 @@ do
 			Text = "",
 			TextSize = 14
 		}, {
-			utility:Create("TextLabel", { -- text
+			utility:Create("TextLabel", {
 				Name = "Title",
 				AnchorPoint = Vector2.new(0, 0.5),
 				BackgroundTransparency = 1,
@@ -329,7 +329,7 @@ do
 				TextTransparency = 0.65,
 				TextXAlignment = Enum.TextXAlignment.Left
 			}),
-			icon and utility:Create("ImageLabel", { -- icon
+			icon and utility:Create("ImageLabel", {
 				Name = "Icon", 
 				AnchorPoint = Vector2.new(0, 0.5),
 				BackgroundTransparency = 1,
@@ -342,7 +342,7 @@ do
 			}) or {}
 		})
 		
-		local container = utility:Create("ScrollingFrame", { -- page container
+		local container = utility:Create("ScrollingFrame", {
 			Name = title,
 			Parent = library.container.Main,
 			Active = true,
@@ -370,7 +370,7 @@ do
 	end
 	
 	function section.new(page, title)
-		local container = utility:Create("ImageLabel", { -- image container
+		local container = utility:Create("ImageLabel", {
 			Name = title,
 			Parent = page.container,
 			BackgroundTransparency = 1,
@@ -382,7 +382,7 @@ do
 			SliceCenter = Rect.new(4, 4, 296, 296),
 			ClipsDescendants = true
 		}, {
-			utility:Create("Frame", { -- frame container
+			utility:Create("Frame", {
 				Name = "Container",
 				Active = true,
 				BackgroundTransparency = 1,
@@ -390,7 +390,7 @@ do
 				Position = UDim2.new(0, 8, 0, 8),
 				Size = UDim2.new(1, -16, 1, -16)
 			}, {
-				utility:Create("TextLabel", { -- title
+				utility:Create("TextLabel", {
 					Name = "Title",
 					BackgroundTransparency = 1,
 					Size = UDim2.new(1, 0, 0, 20),
@@ -449,7 +449,7 @@ do
 		for property, objects in pairs(objects[theme]) do
 			for i, object in pairs(objects) do
 				if not object.Parent or (object.Name == "Button" and object.Parent.Name == "ColorPicker") then
-					objects[i] = nil -- i can do this because of weak tables :D
+					objects[i] = nil -- i can do this because weak tables :D
 				else
 					object[property] = color3
 				end
@@ -1363,7 +1363,7 @@ do
 			end
 		end
 		
-		for i, container in pairs(tab.Container.Inputs:GetChildren()) do
+		for i, container in pairs(tab.Container.Inputs:GetChildren()) do -- i know what you are about to say, so shut up
 			if container:IsA("ImageLabel") then
 				local textbox = container.Textbox
 				local focused
@@ -1772,15 +1772,15 @@ do
 		
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(dropdown, nil, list)
+				self:updateDropdown(dropdown, nil, list, callback)
 			else
-				self:updateDropdown(dropdown)
+				self:updateDropdown(dropdown, nil, nil, callback)
 			end
 		end)
 		
 		search.TextBox.Focused:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(dropdown, nil, list)
+				self:updateDropdown(dropdown, nil, list, callback)
 			end
 			
 			focused = true
@@ -1795,7 +1795,7 @@ do
 				local list = utility:Sort(search.TextBox.Text, list)
 				list = #list ~= 0 and list 
 				
-				self:updateDropdown(dropdown, nil, list)
+				self:updateDropdown(dropdown, nil, list, callback)
 			end
 		end)
 		
@@ -2038,7 +2038,7 @@ do
 		local color3
 		local hue, sat, brightness
 		
-		if type(color) == "table" then -- roblox is literally retarded
+		if type(color) == "table" then -- roblox is literally retarded x2
 			hue, sat, brightness = unpack(color)
 			color3 = Color3.fromHSV(hue, sat, brightness)
 		else
@@ -2057,7 +2057,7 @@ do
 				local value = math.clamp(color3[container.Name], 0, 1) * 255
 				
 				container.Textbox.Text = math.floor(value)
-				callback(container.Name:lower(), value)
+				--callback(container.Name:lower(), value)
 			end
 		end
 	end
@@ -2089,7 +2089,7 @@ do
 		return value
 	end
 	
-	function section:updateDropdown(dropdown, title, list)
+	function section:updateDropdown(dropdown, title, list, callback)
 		dropdown = self:getModule(dropdown)
 		
 		if title then
@@ -2133,7 +2133,13 @@ do
 			})
 			
 			button.MouseButton1Click:Connect(function()
-				self:updateDropdown(dropdown, value)
+				if callback then
+					callback(value, function(...)
+						self:updateDropdown(dropdown, ...)
+					end)	
+				end
+
+				self:updateDropdown(dropdown, value, nil, callback)
 			end)
 			
 			entries = entries + 1
@@ -2161,4 +2167,5 @@ do
 	end
 end
 
+print("dino was here :\)")
 return library
