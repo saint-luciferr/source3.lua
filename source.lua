@@ -1699,7 +1699,7 @@ do
 		return slider
 	end
 
-	function section:addDropdown(title, list, callback)
+	function section:addDropdown(title, list, default, callback)
 		local dropdown = utility:Create("Frame", {
 			Name = "Dropdown",
 			Parent = self.container,
@@ -1822,6 +1822,8 @@ do
 		dropdown:GetPropertyChangedSignal("Size"):Connect(function()
 			self:Resize()
 		end)
+
+		search.TextBox.Text = default
 
 		this.Get = function()
 			return search.TextBox.Text
