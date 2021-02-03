@@ -806,7 +806,7 @@ do
 
 		return setmetatable({}, {
 			__index = function(_, k)
-				return toggle[k] or this[k]
+				return this[k] or toggle[k]
 			end
 		})
 	end
@@ -1829,7 +1829,7 @@ do
 
 		return setmetatable({}, {
 			__index = function(t, k)
-				return dropdown[k] or this[k]
+				return this[k] or dropdown[k]
 			end
 		})
 	end
