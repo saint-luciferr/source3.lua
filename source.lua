@@ -1793,6 +1793,7 @@ do
 		local focused
 
 		list = list or {}
+		default = default or title
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
