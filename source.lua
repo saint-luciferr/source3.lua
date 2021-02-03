@@ -779,8 +779,12 @@ do
 		local this = {}
 		self:updateToggle(toggle, nil, active)
 
-		this.Get = function()
+		function this:Get()
 			return active
+		end
+
+		function this:updateToggle(title, value)
+			return self:updateToggle(toggle, title, value)
 		end
 
 		this.Set = function(val)
@@ -1825,8 +1829,13 @@ do
 
 		search.TextBox.Text = default
 
-		this.Get = function()
+		function this:Get()
 			return search.TextBox.Text
+		end
+
+		local _self = self
+		function this:updateDropdown(title, list, callback)
+			return _self:updateDropdown(dropdown, title, list, callback)
 		end
 
 		return setmetatable({}, {
