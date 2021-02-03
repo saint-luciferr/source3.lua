@@ -1784,6 +1784,7 @@ do
 		table.insert(self.modules, dropdown)
 		--self:Resize()
 
+		local this = {}
 		local search = dropdown.Search
 		local focused
 
@@ -1822,7 +1823,15 @@ do
 			self:Resize()
 		end)
 
-		return dropdown
+		this.Get = function()
+			return search.TextBox.Text
+		end
+
+		return setmetatable({}, {
+			__index = function(t, k)
+				return dropdown[k] or this[k]
+			end
+		})
 	end
 
 	-- class functions
