@@ -494,15 +494,6 @@ do
 			wait(0.2)
 		end
 
-		self.Get = function()
-			return self.toggling
-		end
-
-		self.Set = function(value)
-			self.toggling = value
-			return self
-		end
-
 		self.toggling = false
 	end
 
@@ -785,7 +776,22 @@ do
 		--self:Resize()
 
 		local active = default
+		local this = {}
 		self:updateToggle(toggle, nil, active)
+
+		this.Get = function()
+			return active
+		end
+
+		this.Set = function(val)
+			active = val
+
+			if callback then
+				callback(active, function(...)
+					self:updateToggle(toggle, ...)
+				end)
+			end
+		end
 
 		toggle.MouseButton1Click:Connect(function()
 			active = not active
@@ -798,7 +804,11 @@ do
 			end
 		end)
 
-		return toggle
+		return setmetatable({}, {
+			__index = function(_, k)
+				return toggle[k] or this[k]
+			end
+		})
 	end
 
 	function section:addTextbox(title, default, callback)
@@ -2176,5 +2186,5 @@ do
 	end
 end
 
-print("dino was here :\)")
+print("dino and steffei was here :)")
 return library
