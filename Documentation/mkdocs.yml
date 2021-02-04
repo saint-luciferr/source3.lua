@@ -1,0 +1,12 @@
+site_name: Venyx Documentation
+docs_dir: 'src'
+nav:
+    - Home: ./Home/index.md
+    - Getting Started: ./GettingStarted/index.md
+    - Example: ./Example/index.md
+    - API Reference: ./APIReference/index.md
+theme:
+    name: material
+    hightlightjs: true
+markdown_extensions:
+    - admonition
