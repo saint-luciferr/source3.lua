@@ -1787,10 +1787,10 @@ do
 		})
 		local dropdown = setmetatable({}, {
 			__index = function(t, k)
-				return this[k] or _dropdown[k]
+				return rawget(this, k) or rawget(_dropdown, k)
 			end,
 			__newindex = function(t, k, v)
-				t[k] = v
+				rawset(t, k, v)
 				self:updateDropdown(dropdown)
 			end
 		})
