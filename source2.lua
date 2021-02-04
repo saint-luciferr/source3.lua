@@ -1839,7 +1839,14 @@ do
 		end
 
 		local _self = self
-		function this:updateDropdown()
+        function this:updateDropdown(dataOptions)
+            -- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+            end
+
 			return _self:updateDropdown(module)
 		end
 
