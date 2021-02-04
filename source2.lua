@@ -659,7 +659,10 @@ do
 		end)
 	end
 
-	function section:addButton(title, callback)
+	function section:addButton(data)
+		local this = {}
+		this.title = data.title or "nil text"
+
 		local button = utility:Create("ImageButton", {
 			Name = "Button",
 			Parent = self.container,
@@ -678,14 +681,15 @@ do
 				Size = UDim2.new(1, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012
 			})
 		})
 
-		table.insert(self.modules, {Instance = button})
+		local module = {Instance = button, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local text = button.Title
@@ -707,19 +711,19 @@ do
 			wait(0.2)
 			utility:Tween(button.Title, {TextSize = 12}, 0.2)
 
-			if callback then
-				callback(function(...)
-					self:updateButton(button, ...)
-				end)
-			end
+			this.callback()
 
 			debounce = false
 		end)
 
-		return button
+		return module
 	end
 
-	function section:addToggle(title, default, callback)
+	function section:addToggle(data)
+		local this = {}
+		this.toggled = data.default or false
+		this.callback = data.callback or function() end
+
 		local toggle = utility:Create("ImageButton", {
 			Name = "Toggle",
 			Parent = self.container,
@@ -740,7 +744,7 @@ do
 				Size = UDim2.new(0.5, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = data.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
@@ -771,51 +775,46 @@ do
 				})
 			})
 		})
-
-		table.insert(self.modules, {Instance = toggle})
+		local module = {Instance = toggle, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
-		local active = default
-		local this = {}
-		self:updateToggle(toggle, nil, active)
+		self:updateToggle(module)
 
 		function this:Get()
-			return active
+			return this.toggled
 		end
 
-		function this:updateToggle(title, value)
-			return self:updateToggle(toggle, title, value)
+		function this:Set(val)
+			self:updateToggle({toggled = val})
 		end
 
-		this.Set = function(val)
-			active = val
-
-			if callback then
-				callback(active, function(...)
-					self:updateToggle(toggle, ...)
-				end)
+		function this:updateToggle(dataOptions)
+			-- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
 			end
+
+			return self:updateToggle(module)
 		end
 
 		toggle.MouseButton1Click:Connect(function()
-			active = not active
-			self:updateToggle(toggle, nil, active)
+			this.toggled = not this.toggled
+			self:updateToggle(module)
 
-			if callback then
-				callback(active, function(...)
-					self:updateToggle(toggle, ...)
-				end)
-			end
+			this.callback(this.toggled)
 		end)
 
-		return setmetatable({}, {
-			__index = function(_, k)
-				return this[k] or toggle[k]
-			end
-		})
+		return module
 	end
 
-	function section:addTextbox(title, default, callback)
+	function section:addTextbox(data)
+		local this = {}
+		this.default = data.default or "nil text"
+		this.title = data.title or "nil text"
+
 		local textbox = utility:Create("ImageButton", {
 			Name = "Textbox",
 			Parent = self.container,
@@ -836,7 +835,7 @@ do
 				Size = UDim2.new(0.5, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
@@ -861,18 +860,18 @@ do
 					Size = UDim2.new(1, -10, 1, 0),
 					ZIndex = 3,
 					Font = Enum.Font.GothamSemibold,
-					Text = default or "",
+					Text = this.default,
 					TextColor3 = themes.TextColor,
 					TextSize = 11
 				})
 			})
 		})
-
-		table.insert(self.modules, {Instance = textbox})
+		local module = {Instance = textbox, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local button = textbox.Button
-		local input = button.Textbox
+		local tInput = button.Textbox
 
 		textbox.MouseButton1Click:Connect(function()
 
@@ -887,43 +886,41 @@ do
 
 			wait()
 
-			input.TextXAlignment = Enum.TextXAlignment.Left
-			input:CaptureFocus()
+			tInput.TextXAlignment = Enum.TextXAlignment.Left
+			tInput:CaptureFocus()
 		end)
 
-		input:GetPropertyChangedSignal("Text"):Connect(function()
+		tInput:GetPropertyChangedSignal("Text"):Connect(function()
 
 			if button.ImageTransparency == 0 and (button.Size == UDim2.new(0, 200, 0, 16) or button.Size == UDim2.new(0, 100, 0, 16)) then -- i know, i dont like this either
 				utility:Pop(button, 10)
 			end
 
-			if callback then
-				callback(input.Text, nil, function(...)
-					self:updateTextbox(textbox, ...)
-				end)
-			end
+			this.callback(tInput.Text)
 		end)
 
-		input.FocusLost:Connect(function()
+		tInput.FocusLost:Connect(function()
 
-			input.TextXAlignment = Enum.TextXAlignment.Center
+			tInput.TextXAlignment = Enum.TextXAlignment.Center
 
 			utility:Tween(textbox.Button, {
 				Size = UDim2.new(0, 100, 0, 16),
 				Position = UDim2.new(1, -110, 0.5, -8)
 			}, 0.2)
 
-			if callback then
-				callback(input.Text, true, function(...)
-					self:updateTextbox(textbox, ...)
-				end)
-			end
+			this.callback(tInput.Text)
 		end)
 
-		return textbox
+		return module
 	end
 
-	function section:addKeybind(title, default, callback, changedCallback)
+	function section:addKeybind(data)
+		local this = {}
+		this.title = data.title or "nil text"
+		this.key = data.key or Enum.KeyCode.Unknown
+		this.callback = data.callback or function() end
+		this.changedCallback = data.changedCallback or function() end
+
 		local keybind = utility:Create("ImageButton", {
 			Name = "Keybind",
 			Parent = self.container,
@@ -944,7 +941,7 @@ do
 				Size = UDim2.new(1, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
@@ -968,14 +965,14 @@ do
 					Size = UDim2.new(1, 0, 1, 0),
 					ZIndex = 3,
 					Font = Enum.Font.GothamSemibold,
-					Text = default and default.Name or "None",
+					Text = input:GetStringForKeyCode(this.key),
 					TextColor3 = themes.TextColor,
 					TextSize = 11
 				})
 			})
 		})
-
-		table.insert(self.modules, {Instance = keybind})
+		local module = {Instance = keybind, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local text = keybind.Button.Text
@@ -989,17 +986,10 @@ do
 
 		self.binds[keybind] = {callback = function()
 			animate()
-
-			if callback then
-				callback(function(...)
-					self:updateKeybind(keybind, ...)
-				end)
-			end
+			this.callback()
 		end}
 
-		if default and callback then
-			self:updateKeybind(keybind, nil, default)
-		end
+		self:updateKeybind(module)
 
 		keybind.MouseButton1Click:Connect(function()
 
@@ -1009,26 +999,27 @@ do
 				return self:updateKeybind(keybind)
 			end
 
-			if text.Text == "None" then -- new bind
+			if text.Text == "Unknown" then -- new bind
 				text.Text = "..."
 
-				local key = utility:KeyPressed()
+				this.key = utility:KeyPressed()
 
-				self:updateKeybind(keybind, nil, key.KeyCode)
+				self:updateKeybind(module)
 				animate()
 
-				if changedCallback then
-					changedCallback(key, function(...)
-						self:updateKeybind(keybind, ...)
-					end)
-				end
+				this.changedCallback(this.key)
 			end
 		end)
 
-		return keybind
+		return module
 	end
 
-	function section:addColorPicker(title, default, callback)
+	function section:addColorPicker(data)
+		local this = {}
+		this.title = data.title
+		this.default = data.default or Color3.new(255, 150, 150)
+		this.callback = data.callback or function() end
+
 		local colorpicker = utility:Create("ImageButton", {
 			Name = "ColorPicker",
 			Parent = self.container,
@@ -1049,7 +1040,7 @@ do
 				Size = UDim2.new(0.5, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
@@ -1101,7 +1092,7 @@ do
 				Size = UDim2.new(1, -40, 0, 16),
 				ZIndex = 2,
 				Font = Enum.Font.GothamSemibold,
-				Text = title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 14,
 				TextXAlignment = Enum.TextXAlignment.Left
@@ -1332,7 +1323,8 @@ do
 		})
 
 		utility:DraggingEnabled(tab)
-		table.insert(self.modules, {Instance = colorpicker})
+		local module = {Instance = colorpicker, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local allowed = {
@@ -1347,7 +1339,8 @@ do
 
 		local draggingColor, draggingCanvas
 
-		local color3 = default or Color3.fromRGB(255, 255, 255)
+		local color3 = this.default
+		local callback = this.callback
 		local hue, sat, brightness = 0, 0, 1
 		local rgb = {
 			r = 255,
@@ -1363,27 +1356,17 @@ do
 			end
 		}
 
-		local callback = function(value)
-			if callback then
-				callback(value, function(...)
-					self:updateColorPicker(colorpicker, ...)
-				end)
-			end
-		end
-
 		utility:DraggingEnded(function()
 			draggingColor, draggingCanvas = false, false
 		end)
 
-		if default then
-			self:updateColorPicker(colorpicker, nil, default)
+		self:updateColorPicker(module)
 
-			hue, sat, brightness = Color3.toHSV(default)
-			default = Color3.fromHSV(hue, sat, brightness)
+		hue, sat, brightness = Color3.toHSV(this.default)
+		this.default = Color3.fromHSV(hue, sat, brightness)
 
-			for i, prop in pairs({"r", "g", "b"}) do
-				rgb[prop] = default[prop:upper()] * 255
-			end
+		for i, prop in pairs({"r", "g", "b"}) do
+			rgb[prop] = this.default[prop:upper()] * 255
 		end
 
 		for i, container in pairs(tab.Container.Inputs:GetChildren()) do -- i know what you are about to say, so shut up
@@ -1411,10 +1394,10 @@ do
 					elseif focused and not allowed[text] then
 						rgb[container.Name:lower()] = math.clamp(tonumber(textbox.Text), 0, 255)
 
-						local color3 = Color3.fromRGB(rgb.r, rgb.g, rgb.b)
+						this.default = Color3.fromRGB(rgb.r, rgb.g, rgb.b)
 						hue, sat, brightness = Color3.toHSV(color3)
 
-						self:updateColorPicker(colorpicker, nil, color3)
+						self:updateColorPicker(module)
 						callback(color3)
 					end
 				end)
@@ -1437,7 +1420,8 @@ do
 					rgb[prop] = color3[prop:upper()] * 255
 				end
 
-				self:updateColorPicker(colorpicker, nil, {hue, sat, brightness}) -- roblox is literally retarded
+				this.default = Color3.fromHSV(hue, sat, brightness)
+				self:updateColorPicker(module)
 				utility:Tween(canvas.Cursor, {Position = UDim2.new(sat, 0, 1 - brightness, 0)}, 0.1) -- overwrite
 
 				callback(color3)
@@ -1458,7 +1442,8 @@ do
 				end
 
 				local x = hue -- hue is updated
-				self:updateColorPicker(colorpicker, nil, {hue, sat, brightness}) -- roblox is literally retarded
+				this.default = Color3.fromHSV(hue, sat, brightness)
+				self:updateColorPicker(module)
 				utility:Tween(tab.Container.Color.Select, {Position = UDim2.new(x, 0, 0, 0)}, 0.1) -- overwrite
 
 				callback(color3)
@@ -1470,7 +1455,7 @@ do
 		local button = colorpicker.Button
 		local toggle, debounce, animate
 
-		lastColor = Color3.fromHSV(hue, sat, brightness)
+		local lastColor = Color3.fromHSV(hue, sat, brightness)
 		animate = function(visible, overwrite)
 
 			if overwrite then
@@ -1545,14 +1530,22 @@ do
 		end)
 
 		tab.Close.MouseButton1Click:Connect(function()
-			self:updateColorPicker(colorpicker, nil, lastColor)
+			this.default = lastColor
+			self:updateColorPicker(module)
 			animate()
 		end)
 
-		return colorpicker
+		return module
 	end
 
-	function section:addSlider(title, default, min, max, callback)
+	function section:addSlider(data)
+		local this = {}
+		this.title = data.title
+		this.default = data.default or 0
+		this.min = data.min or 0
+		this.max = data.max or 100
+		this.callback = data.callback or function() end
+
 		local slider = utility:Create("ImageButton", {
 			Name = "Slider",
 			Parent = self.container,
@@ -1573,7 +1566,7 @@ do
 				Size = UDim2.new(0.5, 0, 0, 16),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = title,
+				Text = data.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
@@ -1587,7 +1580,7 @@ do
 				Size = UDim2.new(0, 20, 0, 16),
 				ZIndex = 3,
 				Font = Enum.Font.GothamSemibold,
-				Text = default or min,
+				Text = this.default,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextXAlignment = Enum.TextXAlignment.Right
@@ -1638,7 +1631,8 @@ do
 			})
 		})
 
-		table.insert(self.modules, {Instance = slider})
+		local module = {Instance = slider, Options = this}
+		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local allowed = {
@@ -1649,31 +1643,23 @@ do
 		local textbox = slider.TextBox
 		local circle = slider.Slider.Bar.Fill.Circle
 
-		local value = default or min
-		local dragging, last
+		local value = this.default
+		local dragging
 
-		local callback = function(value)
-			if callback then
-				callback(value, function(...)
-					self:updateSlider(slider, ...)
-				end)
-			end
-		end
-
-		self:updateSlider(slider, nil, value, min, max)
+		self:updateSlider(module)
 
 		utility:DraggingEnded(function()
 			dragging = false
 		end)
 
-		slider.MouseButton1Down:Connect(function(input)
+		slider.MouseButton1Down:Connect(function()
 			dragging = true
 
 			while dragging do
 				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
 
-				value = self:updateSlider(slider, nil, nil, min, max, value)
-				callback(value)
+				value = self:updateSlider(module)
+				this.callback(value)
 
 				utility:Wait()
 			end
@@ -1684,8 +1670,8 @@ do
 
 		textbox.FocusLost:Connect(function()
 			if not tonumber(textbox.Text) then
-				value = self:updateSlider(slider, nil, default or min, min, max)
-				callback(value)
+				value = self:updateSlider(module)
+				this.callback(value)
 			end
 		end)
 
@@ -1695,15 +1681,21 @@ do
 			if not allowed[text] and not tonumber(text) then
 				textbox.Text = text:sub(1, #text - 1)
 			elseif not allowed[text] then
-				value = self:updateSlider(slider, nil, tonumber(text) or value, min, max)
-				callback(value)
+				value = self:updateSlider(module)
+				this.callback(value)
 			end
 		end)
 
-		return slider
+		return module
 	end
 
 	function section:addDropdown(data)
+		local this = {}
+		this.list = data.list or {}
+		this.title = data.title or "nil title"
+		this.default = data.default
+		this.callback = data.callback or function() end
+
 		local dropdown = utility:Create("Frame", {
 			Name = "Dropdown",
 			Parent = self.container,
@@ -1784,17 +1776,13 @@ do
 				})
 			})
 		})
-		local this = {}
+		
 		local module = {Instance = dropdown, Options = this}
 		self.modules[#self.modules + 1] = module
 		--self:Resize()
 
 		local search = dropdown.Search
 		local focused
-
-		this.list = data.list or {}
-		this.title = data.title or "nil title"
-		this.callback = data.callback or function() end
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
@@ -1829,15 +1817,6 @@ do
 			self:Resize()
 		end)
 
-		if (data.default) then
-			this.title = data.default
-			search.TextBox.Text = data.default
-		end
-
-		function this:Get()
-			return search.TextBox.Text
-		end
-
 		local _self = self
         function this:updateDropdown(dataOptions)
             -- // Overwriting settings
@@ -1848,6 +1827,16 @@ do
             end
 
 			return _self:updateDropdown(module)
+		end
+
+		if (this.default) then
+			this:updateDropdown({
+				title = this.default
+			})
+		end
+
+		function this:Get()
+			return search.TextBox.Text
 		end
 
 		return module
@@ -2000,14 +1989,13 @@ do
 
 	-- updates
 
-	function section:updateButton(button, title)
-		button = self:getModule(button)
-
-		button.Title.Text = title
+	function section:updateButton(module)
+		module.Instance.Title.Text = module.Options.title
 	end
 
-	function section:updateToggle(toggle, title, value)
-		toggle = self:getModule(toggle)
+	function section:updateToggle(module)
+		local toggle = module.Instance
+		local value = module.Options.toggled
 
 		local position = {
 			In = UDim2.new(0, 2, 0.5, -6),
@@ -2017,9 +2005,7 @@ do
 		local frame = toggle.Button.Frame
 		value = value and "Out" or "In"
 
-		if title then
-			toggle.Title.Text = title
-		end
+		toggle.Title.Text = module.Options.title
 
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -9),
@@ -2033,52 +2019,43 @@ do
 		}, 0.1)
 	end
 
-	function section:updateTextbox(textbox, title, value)
-		textbox = self:getModule(textbox)
-
-		if title then
-			textbox.Title.Text = title
-		end
-
-		if value then
-			textbox.Button.Textbox.Text = value
-		end
-
+	function section:updateTextbox(module)
+		module.Instance.Title.Text = module.Options.title
+		module.Instance.Button.Textbox.Text = module.Options.default
 	end
 
-	function section:updateKeybind(keybind, title, key)
-		keybind = self:getModule(keybind)
+	function section:updateKeybind(module)
+		local keybind = module.Instance
+		local key = module.Options.key
 
 		local text = keybind.Button.Text
 		local bind = self.binds[keybind]
 
-		if title then
-			keybind.Title.Text = title
-		end
+		keybind.Title.Text = module.Options.title
 
 		if bind.connection then
 			bind.connection = bind.connection:UnBind()
 		end
 
-		if key then
+		if key ~= Enum.KeyCode.Unknown then
 			self.binds[keybind].connection = utility:BindToKey(key, bind.callback)
-			text.Text = key.Name
+			text.Text = input:GetStringForKeyCode(key)
 		else
-			text.Text = "None"
+			text.Text = "Unknown"
 		end
 	end
 
-	function section:updateColorPicker(colorpicker, title, color)
-		colorpicker = self:getModule(colorpicker)
+	function section:updateColorPicker(module)
+		local colorpicker = module.Instance
+		local options = module.Options
+		local title = options.title
+		local color = options.color
 
 		local picker = self.colorpickers[colorpicker]
 		local tab = picker.tab
-		local callback = picker.callback
 
-		if title then
-			colorpicker.Title.Text = title
-			tab.Title.Text = title
-		end
+		colorpicker.Title.Text = title
+		tab.Title.Text = title
 
 		local color3
 		local hue, sat, brightness
@@ -2107,19 +2084,21 @@ do
 		end
 	end
 
-	function section:updateSlider(slider, title, value, min, max, lvalue)
-		slider = self:getModule(slider)
+	function section:updateSlider(module)
+		local slider = module.Instance
+		local options = module.Options
+		local title = options.title
+		local value = options.value
+		local min = options.min
+		local max = options.max
+		local lvalue = options.lvalue
 
-		if title then
-			slider.Title.Text = title
-		end
+		slider.Title.Text = title
 
 		local bar = slider.Slider.Bar
 		local percent = (mouse.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X
 
-		if value then -- support negative ranges
-			percent = (value - min) / (max - min)
-		end
+		percent = (value - min) / (max - min)
 
 		percent = math.clamp(percent, 0, 1)
 		value = value or math.floor(min + (max - min) * percent)
