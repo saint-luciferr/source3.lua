@@ -2173,13 +2173,9 @@ do
 			})
 
 			button.MouseButton1Click:Connect(function()
-				if callback then
-					callback(value, function(...)
-						self:updateDropdown(dropdown, ...)
-					end)
-				end
+				callback(value)
 
-				self:updateDropdown(dropdown, value, nil, callback)
+				self:updateDropdown(module)
 			end)
 
 			entries = entries + 1
