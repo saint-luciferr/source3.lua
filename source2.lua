@@ -211,7 +211,9 @@ do
 
 	-- new classes
 
-	function library.new(title)
+	function library.new(data)
+		local title = data.title or "Venyx"
+
 		local container = utility:Create("ScreenGui", {
 			Name = title,
 			Parent = game.CoreGui
@@ -419,9 +421,11 @@ do
 		}, section)
 	end
 
-	function library:addPage(...)
+	function library:addPage(data)
+		local title = data.title or "Page"
+		local icon = data.icon
 
-		local page = page.new(self, ...)
+		local page = page.new(self, title, icon)
 		local button = page.button
 
 		table.insert(self.pages, page)
@@ -433,8 +437,10 @@ do
 		return page
 	end
 
-	function page:addSection(...)
-		local section = section.new(self, ...)
+	function page:addSection(data)
+		local title = data.title
+
+		local section = section.new(self, title)
 
 		table.insert(self.sections, section)
 
@@ -443,7 +449,10 @@ do
 
 	-- functions
 
-	function library:setTheme(theme, color3)
+	function library:setTheme(data)
+		local theme = data.theme
+		local color3 = data.color3
+
 		themes[theme] = color3
 
 		for property, objects in pairs(objects[theme]) do
@@ -499,7 +508,10 @@ do
 
 	-- new modules
 
-	function library:Notify(title, text, callback)
+	function library:Notify()
+		local title = data.title or "Notification"
+		local text = data.text or "nil text"
+		local callback = data.callback or function() end
 
 		-- overwrite last notification
 		if self.activeNotification then
@@ -1846,7 +1858,9 @@ do
 
 	-- class functions
 
-	function library:SelectPage(page, toggle)
+	function library:SelectPage(data)
+		local page = data.page
+		local toggle = data.toggle
 
 		if toggle and self.focusedPage == page then -- already selected
 			return
