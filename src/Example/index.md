@@ -4,7 +4,9 @@ Here's an example which showcases all of the available UI elements:
 ```lua
 -- // Initialising the UI
 local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua"))()
-local UI = Venyx.new("Venyx")
+local UI = Venyx.new({
+	title = "Venyx"
+})
 
 -- // Themes
 local Themes = {
@@ -17,11 +19,18 @@ local Themes = {
 }
 
 -- // Test Page
-local Test = UI:addPage("Test", 5012544693)
+local Test = UI:addPage({
+	title = "Test",
+	icon = 5012544693
+})
 
 -- // Sections for Test Page
-local SectionA = Test:addSection("Section A")
-local SectionB = Test:addSection("Section B")
+local SectionA = Test:addSection({
+	title = "Section A"
+})
+local SectionB = Test:addSection({
+	title = "Section B"
+})
 
 -- // Section A UI Elements
 SectionA:addToggle({
@@ -101,10 +110,15 @@ SectionB:addButton({
 })
 
 -- // Color Theme Customisation Page
-local Theme = UI:addPage("Theme", 5012544693)
+local Theme = UI:addPage({
+	title = "Theme",
+	icon = 5012544693
+})
 
 -- // Section for the Color Theme Customisation Page
-local Colors = Theme:addSection("Colors")
+local Colors = Theme:addSection({
+	title = "Colors"
+})
 
 -- // Adding a color picker for each type of theme customisable
 for theme, color in pairs(themes) do
