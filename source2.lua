@@ -431,7 +431,10 @@ do
 		table.insert(self.pages, page)
 
 		button.MouseButton1Click:Connect(function()
-			self:SelectPage(page, true)
+			self:SelectPage({
+				page = page,
+				toggle = true
+			})
 		end)
 
 		return page
@@ -1882,7 +1885,9 @@ do
 			self.focusedPage = page
 
 			if focusedPage then
-				self:SelectPage(focusedPage)
+				self:SelectPage({
+					page = focusedPage
+				})
 			end
 
 			-- sections
