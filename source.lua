@@ -1787,10 +1787,10 @@ do
 		})
 		local dropdown = setmetatable({}, {
 			__index = function(t, k)
-				return rawget(this, k) or rawget(_dropdown, k)
+				return this[k] or _dropdown[k]
 			end,
 			__newindex = function(t, k, v)
-				rawset(t, k, v)
+				t[k] = v
 				self:updateDropdown(dropdown)
 			end
 		})
@@ -1798,7 +1798,7 @@ do
 
 		table.insert(self.modules, dropdown)
 		--self:Resize()
-
+		
 		local search = dropdown.Search
 		local focused
 
@@ -1841,7 +1841,7 @@ do
 		if (default) then
 			search.TextBox.Text = default
 		end
-
+		
 		function this:Get(what)
 			if (what == "list") then
 				return list
