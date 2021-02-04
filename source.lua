@@ -1704,8 +1704,7 @@ do
 	end
 
 	function section:addDropdown(title, list, default, callback)
-		local this = {}
-		local _dropdown = utility:Create("Frame", {
+		local dropdown = utility:Create("Frame", {
 			Name = "Dropdown",
 			Parent = self.container,
 			BackgroundTransparency = 1,
@@ -1785,37 +1784,27 @@ do
 				})
 			})
 		})
-		local dropdown = setmetatable({}, {
-			__index = function(t, k)
-				return this[k] or _dropdown[k]
-			end,
-			__newindex = function(t, k, v)
-				t[k] = v
-				self:updateDropdown(dropdown)
-			end
-		})
-
 
 		table.insert(self.modules, dropdown)
 		--self:Resize()
-		
+
+		local this = {}
 		local search = dropdown.Search
 		local focused
 
-		this.list = list or {}
-		this.callback = callback or function() end
+		list = list or {}
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(dropdown)
+				self:updateDropdown(dropdown, nil, list, callback)
 			else
-				self:updateDropdown(dropdown)
+				self:updateDropdown(dropdown, nil, nil, callback)
 			end
 		end)
 
 		search.TextBox.Focused:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(dropdown)
+				self:updateDropdown(dropdown, nil, list, callback)
 			end
 
 			focused = true
@@ -1827,10 +1816,10 @@ do
 
 		search.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
 			if focused then
-				local _list = utility:Sort(search.TextBox.Text, this.list)
-				this.list = #_list ~= 0 and _list
+				local list = utility:Sort(search.TextBox.Text, list)
+				list = #list ~= 0 and list
 
-				self:updateDropdown(dropdown)
+				self:updateDropdown(dropdown, nil, list, callback)
 			end
 		end)
 
@@ -1842,20 +1831,20 @@ do
 			search.TextBox.Text = default
 		end
 		
-		function this:Get(what)
-			if (what == "list") then
-				return list
-			else
-				return search.TextBox.Text
-			end
+		function this:Get()
+			return search.TextBox.Text
 		end
 
 		local _self = self
-		function this:updateDropdown(dropdown)
-			return _self:updateDropdown(dropdown)
+		function this:updateDropdown(title, list, callback)
+			return _self:updateDropdown(dropdown, title, list, callback)
 		end
 
-		return dropdown
+		return setmetatable({}, {
+			__index = function(t, k)
+				return this[k] or dropdown[k]
+			end
+		})
 	end
 
 	-- class functions
@@ -2141,10 +2130,12 @@ do
 		return value
 	end
 
-	function section:updateDropdown(data)
-		dropdown = self:getModule(data)
+	function section:updateDropdown(dropdown, title, list, callback)
+		dropdown = self:getModule(dropdown)
 
-		dropdown.Search.TextBox.Text = data.title
+		if title then
+			dropdown.Search.TextBox.Text = title
+		end
 
 		local entries = 0
 
@@ -2156,7 +2147,7 @@ do
 			end
 		end
 
-		for i, value in pairs(data.list or {}) do
+		for i, value in pairs(list or {}) do
 			local button = utility:Create("ImageButton", {
 				Parent = dropdown.List.Frame,
 				BackgroundTransparency = 1,
@@ -2183,12 +2174,13 @@ do
 			})
 
 			button.MouseButton1Click:Connect(function()
-				data.title = value
-				data.callback(value, function(...)
-					self:updateDropdown(dropdown, ...)
-				end)
+				if callback then
+					callback(value, function(...)
+						self:updateDropdown(dropdown, ...)
+					end)
+				end
 
-				self:updateDropdown(data)
+				self:updateDropdown(dropdown, value, nil, callback)
 			end)
 
 			entries = entries + 1
@@ -2197,7 +2189,7 @@ do
 		local frame = dropdown.List.Frame
 
 		utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
-		utility:Tween(dropdown.Search.Button, {Rotation = data.list and 180 or 0}, 0.3)
+		utility:Tween(dropdown.Search.Button, {Rotation = list and 180 or 0}, 0.3)
 
 		if entries > 3 then
 
