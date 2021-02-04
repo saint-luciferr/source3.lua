@@ -662,7 +662,8 @@ do
 	function section:addButton(data)
 		local this = {}
 		this.title = data.title or "nil text"
-
+        this.callback = data.callback or function() end
+        
 		local button = utility:Create("ImageButton", {
 			Name = "Button",
 			Parent = self.container,
@@ -908,7 +909,7 @@ do
 				Position = UDim2.new(1, -110, 0.5, -8)
 			}, 0.2)
 
-			this.callback(tInput.Text)
+			this.callback(tInput.Text, true)
 		end)
 
 		return module
@@ -1963,7 +1964,7 @@ do
 		local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
 
 		for i, module in pairs(self.modules) do
-			size = size + module.AbsoluteSize.Y + padding
+			size = size + module.Instance.AbsoluteSize.Y + padding
 		end
 
 		if smooth then
@@ -2189,5 +2190,4 @@ do
 	end
 end
 
-print("dino and steffei was here :)")
-return library
+getgenv().Venyx = library
