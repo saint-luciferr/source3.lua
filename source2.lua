@@ -722,6 +722,7 @@ do
 
 	function section:addToggle(data)
 		local this = {}
+		this.title = data.title or "nil text"
 		this.toggled = data.default or false
 		this.callback = data.callback or function() end
 
@@ -745,7 +746,7 @@ do
 				Size = UDim2.new(0.5, 0, 1, 0),
 				ZIndex = 3,
 				Font = Enum.Font.Gotham,
-				Text = data.title,
+				Text = this.title,
 				TextColor3 = themes.TextColor,
 				TextSize = 12,
 				TextTransparency = 0.10000000149012,
