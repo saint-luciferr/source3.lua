@@ -1793,7 +1793,6 @@ do
 		local focused
 
 		list = list or {}
-		default = default or title
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
@@ -1828,8 +1827,10 @@ do
 			self:Resize()
 		end)
 
-		search.TextBox.Text = default
-
+		if (default) then
+			search.TextBox.Text = default
+		end
+		
 		function this:Get()
 			return search.TextBox.Text
 		end
