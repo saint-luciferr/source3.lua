@@ -441,7 +441,7 @@ do
 	end
 
 	function page:addSection(data)
-		local title = data.title
+		local title = data.title or "Section"
 
 		local section = section.new(self, title)
 
