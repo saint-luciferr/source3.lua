@@ -2,7 +2,7 @@ site_name: Venyx Documentation
 docs_dir: 'src'
 site_dir: 'docs'
 nav:
-    - Home: ./Home/index.md
+    - Home: index.md
     - Getting Started: ./GettingStarted/index.md
     - Example: ./Example/index.md
     - API Reference:
