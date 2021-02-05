@@ -19,6 +19,8 @@ nav:
             - Toggle: ./APIReference/UI/toggle.md
         - Page:
             - Index: ./APIReference/Page/index.md
+            - Add Section: ./APIReference/Page/addsection.md
+            - Resize: ./APIReference/Page/resize.md
 theme:
     name: material
     hightlightjs: true
