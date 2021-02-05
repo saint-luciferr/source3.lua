@@ -5,7 +5,20 @@ nav:
     - Home: ./Home/index.md
     - Getting Started: ./GettingStarted/index.md
     - Example: ./Example/index.md
-    - API Reference: ./APIReference/index.md
+    - API Reference:
+        - Index: ./APIReference/index.md
+        - Venyx:
+            - Index: ./APIReference/Venyx/index.md
+            - New: ./APIReference/Venyx/new.md
+        - UI:
+            - Index: ./APIReference/UI/index.md
+            - Add Page: ./APIReference/UI/addpage.md
+            - Select Page: ./APIReference/UI/selectpage.md
+            - Notify: ./APIReference/UI/notify.md
+            - Set Theme: ./APIReference/UI/settheme.md
+            - Toggle: ./APIReference/UI/toggle.md
+        - Page:
+            - Index: ./APIReference/Page/index.md
 theme:
     name: material
     hightlightjs: true

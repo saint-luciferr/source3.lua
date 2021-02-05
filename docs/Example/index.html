@@ -223,10 +223,230 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+      
+      <label class="md-nav__link" for="nav-4">
+        API Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
     <li class="md-nav__item">
       <a href="../APIReference/" class="md-nav__link">
-        API Reference
+        Index
       </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2" >
+      
+      <label class="md-nav__link" for="nav-4-2">
+        Venyx
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Venyx" data-md-level="2">
+        <label class="md-nav__title" for="nav-4-2">
+          <span class="md-nav__icon md-icon"></span>
+          Venyx
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/Venyx/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/Venyx/new/" class="md-nav__link">
+        New
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3" >
+      
+      <label class="md-nav__link" for="nav-4-3">
+        UI
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="UI" data-md-level="2">
+        <label class="md-nav__title" for="nav-4-3">
+          <span class="md-nav__icon md-icon"></span>
+          UI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/addpage/" class="md-nav__link">
+        Add Page
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/selectpage/" class="md-nav__link">
+        Select Page
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/notify/" class="md-nav__link">
+        Notify
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/settheme/" class="md-nav__link">
+        Set Theme
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/UI/toggle/" class="md-nav__link">
+        Toggle
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4" >
+      
+      <label class="md-nav__link" for="nav-4-4">
+        Page
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Page" data-md-level="2">
+        <label class="md-nav__title" for="nav-4-4">
+          <span class="md-nav__icon md-icon"></span>
+          Page
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../APIReference/Page/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -264,7 +484,9 @@
 <p>Here's an example which showcases all of the available UI elements:</p>
 <pre><code class="language-lua">-- // Initialising the UI
 local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
-local UI = Venyx.new(&quot;Venyx&quot;)
+local UI = Venyx.new({
+    title = &quot;Venyx&quot;
+})
 
 -- // Themes
 local Themes = {
@@ -277,11 +499,18 @@ local Themes = {
 }
 
 -- // Test Page
-local Test = UI:addPage(&quot;Test&quot;, 5012544693)
+local Test = UI:addPage({
+    title = &quot;Test&quot;,
+    icon = 5012544693
+})
 
 -- // Sections for Test Page
-local SectionA = Test:addSection(&quot;Section A&quot;)
-local SectionB = Test:addSection(&quot;Section B&quot;)
+local SectionA = Test:addSection({
+    title = &quot;Section A&quot;
+})
+local SectionB = Test:addSection({
+    title = &quot;Section B&quot;
+})
 
 -- // Section A UI Elements
 SectionA:addToggle({
@@ -361,10 +590,15 @@ SectionB:addButton({
 })
 
 -- // Color Theme Customisation Page
-local Theme = UI:addPage(&quot;Theme&quot;, 5012544693)
+local Theme = UI:addPage({
+    title = &quot;Theme&quot;,
+    icon = 5012544693
+})
 
 -- // Section for the Color Theme Customisation Page
-local Colors = Theme:addSection(&quot;Colors&quot;)
+local Colors = Theme:addSection({
+    title = &quot;Colors&quot;
+})
 
 -- // Adding a color picker for each type of theme customisable
 for theme, color in pairs(themes) do
@@ -420,7 +654,7 @@ UI:SelectPage(UI.pages[1], true)
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                API Reference
+                Index
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
