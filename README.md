@@ -1,5 +1,8 @@
 # Venyx UI Library
 
+## Documentation
+[Go to the documentation here](https://stefanuk12.github.io/Venyx-UI-Library/Home/)
+
 ## Showcase
 [Watch the showcase here](https://venyx.wtf/medias/ipY1h0WVia.mp4)
 
