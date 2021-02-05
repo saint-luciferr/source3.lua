@@ -21,6 +21,8 @@ nav:
             - Index: ./APIReference/Page/index.md
             - Add Section: ./APIReference/Page/addsection.md
             - Resize: ./APIReference/Page/resize.md
+        - Section:
+            - Index: ./APIReference/Section/index.md
 theme:
     name: material
     hightlightjs: true
