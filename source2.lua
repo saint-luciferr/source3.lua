@@ -734,7 +734,7 @@ do
             -- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
             end
 
@@ -811,7 +811,7 @@ do
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
 			end
 
@@ -934,7 +934,7 @@ do
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
 			end
 
@@ -1046,7 +1046,7 @@ do
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
 			end
 
@@ -1579,7 +1579,7 @@ do
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
 			end
 
@@ -1744,7 +1744,7 @@ do
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
 			end
 
@@ -1892,7 +1892,7 @@ do
             -- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i] and i ~= "Update") then
-                    module.Options[i] = v
+                    module.Options[i] = tostring(v)
                 end
             end
 
