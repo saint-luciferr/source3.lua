@@ -54,7 +54,10 @@ SectionA:addTextbox({
         print("Input", value)
 
         if (focusLost) then
-            UI:Notify("Title", value)
+            UI:Notify({
+                title = "Title",
+                text = value
+            })
         end
     end
 })

@@ -33,6 +33,7 @@ nav:
             - Resize: ./APIReference/Section/resize.md
 theme:
     name: material
-    hightlightjs: true
 markdown_extensions:
     - admonition
+    - pymdownx.highlight
+    - pymdownx.superfences

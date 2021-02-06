@@ -757,61 +757,61 @@
                 <h1 id="getting-started">Getting Started</h1>
 <h2 id="loading-the-library">Loading the Library</h2>
 <p>Load the library from the Github repo using <code>loadstring</code> and <code>game:HttpGet</code></p>
-<pre><code class="language-lua">local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;</span><span class="p">))()</span>
+</code></pre></div>
 <h2 id="creating-a-new-ui">Creating a new UI</h2>
 <p>Create a new UI using the <code>Venyx.new</code> function:</p>
-<pre><code class="language-lua">local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;</span><span class="p">))()</span>
 
-local UI = Venyx.new(&quot;Getting Started&quot;)
-</code></pre>
+<span class="kd">local</span> <span class="n">UI</span> <span class="o">=</span> <span class="n">Venyx</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Getting Started&quot;</span><span class="p">)</span>
+</code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Store the result of <code>Venyx.new()</code> in a variable so you can add pages to it later</p>
 </div>
 <h2 id="creating-a-page">Creating a Page</h2>
 <p>A page allows you add sections to a new UI. Create a page using the <code>UI:addPage</code> function:</p>
-<pre><code class="language-lua">local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;</span><span class="p">))()</span>
 
-local UI = Venyx.new(&quot;Getting Started&quot;)
+<span class="kd">local</span> <span class="n">UI</span> <span class="o">=</span> <span class="n">Venyx</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Getting Started&quot;</span><span class="p">)</span>
 
-local Page = UI:addPage(&quot;Main&quot;)
-</code></pre>
+<span class="kd">local</span> <span class="n">Page</span> <span class="o">=</span> <span class="n">UI</span><span class="p">:</span><span class="n">addPage</span><span class="p">(</span><span class="s2">&quot;Main&quot;</span><span class="p">)</span>
+</code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Store the result of <code>UI:addPage()</code> in a variable so you can add sections to it later</p>
 </div>
 <h2 id="creating-a-section">Creating a Section</h2>
 <p>Then a section allows you to add UI elements to the section. Create a new section using the <code>UI:addSection</code> function:</p>
-<pre><code class="language-lua">local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;</span><span class="p">))()</span>
 
-local UI = Venyx.new(&quot;Getting Started&quot;)
+<span class="kd">local</span> <span class="n">UI</span> <span class="o">=</span> <span class="n">Venyx</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Getting Started&quot;</span><span class="p">)</span>
 
-local Page = UI:addPage(&quot;Main&quot;)
+<span class="kd">local</span> <span class="n">Page</span> <span class="o">=</span> <span class="n">UI</span><span class="p">:</span><span class="n">addPage</span><span class="p">(</span><span class="s2">&quot;Main&quot;</span><span class="p">)</span>
 
-local Section = Page:addSection(&quot;Section&quot;)
-</code></pre>
+<span class="kd">local</span> <span class="n">Section</span> <span class="o">=</span> <span class="n">Page</span><span class="p">:</span><span class="n">addSection</span><span class="p">(</span><span class="s2">&quot;Section&quot;</span><span class="p">)</span>
+</code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Store the result of <code>Page:addSection()</code> in a variable so you can add UI elements to it later</p>
 </div>
 <h2 id="creating-ui-elements">Creating UI Elements</h2>
 <p>Now we can add UI elements by calling their corresponding methods. For example, if we want to add a button to the UI, we can call <code>Section:addButton</code>:</p>
-<pre><code class="language-lua">local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;))()
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source.lua&quot;</span><span class="p">))()</span>
 
-local UI = Venyx.new(&quot;Getting Started&quot;)
+<span class="kd">local</span> <span class="n">UI</span> <span class="o">=</span> <span class="n">Venyx</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Getting Started&quot;</span><span class="p">)</span>
 
-local Page = UI:addPage(&quot;Main&quot;)
+<span class="kd">local</span> <span class="n">Page</span> <span class="o">=</span> <span class="n">UI</span><span class="p">:</span><span class="n">addPage</span><span class="p">(</span><span class="s2">&quot;Main&quot;</span><span class="p">)</span>
 
-local Section = Page:addSection(&quot;Section&quot;)
+<span class="kd">local</span> <span class="n">Section</span> <span class="o">=</span> <span class="n">Page</span><span class="p">:</span><span class="n">addSection</span><span class="p">(</span><span class="s2">&quot;Section&quot;</span><span class="p">)</span>
 
-Section:addButton({
-    title = &quot;Click Me!&quot;,
-    callback = function()
-        print(&quot;Clicked!&quot;)
-    end
-})
-</code></pre>
+<span class="n">Section</span><span class="p">:</span><span class="n">addButton</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Click Me!&quot;</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clicked!&quot;</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
+</code></pre></div>
 <h2 id="final-results">Final Results</h2>
 <p>If you did everything correctly, you should get a UI which looks like this:</p>
 <p><img alt="UI" src="UI.png" /></p>

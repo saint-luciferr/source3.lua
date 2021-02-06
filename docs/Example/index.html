@@ -641,145 +641,148 @@
                 
                 
                 <h1 id="example">Example</h1>
-<p>Here's an example which showcases all of the available UI elements:</p>
-<pre><code class="language-lua">-- // Initialising the UI
-local Venyx = loadstring(game:HttpGet(&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua&quot;))()
-local UI = Venyx.new({
-    title = &quot;Venyx&quot;
-})
+<p>Here's an example which showcases all of the available UI elements:
+<div class="highlight"><pre><span></span><code><span class="c1">-- // Initialising the UI</span>
+<span class="kd">local</span> <span class="n">Venyx</span> <span class="o">=</span> <span class="n">loadstring</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="n">HttpGet</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/Stefanuk12/Venyx-UI-Library/main/source2.lua&quot;</span><span class="p">))()</span>
+<span class="kd">local</span> <span class="n">UI</span> <span class="o">=</span> <span class="n">Venyx</span><span class="p">.</span><span class="n">new</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Venyx&quot;</span>
+<span class="p">})</span>
 
--- // Themes
-local Themes = {
-    Background = Color3.fromRGB(24, 24, 24),
-    Glow = Color3.fromRGB(0, 0, 0),
-    Accent = Color3.fromRGB(10, 10, 10),
-    LightContrast = Color3.fromRGB(20, 20, 20),
-    DarkContrast = Color3.fromRGB(14, 14, 14),  
-    TextColor = Color3.fromRGB(255, 255, 255)
-}
+<span class="c1">-- // Themes</span>
+<span class="kd">local</span> <span class="n">Themes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">Background</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="n">Glow</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">Accent</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">LightContrast</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+    <span class="n">DarkContrast</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>  
+    <span class="n">TextColor</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+<span class="p">}</span>
 
--- // Test Page
-local Test = UI:addPage({
-    title = &quot;Test&quot;,
-    icon = 5012544693
-})
+<span class="c1">-- // Test Page</span>
+<span class="kd">local</span> <span class="n">Test</span> <span class="o">=</span> <span class="n">UI</span><span class="p">:</span><span class="n">addPage</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Test&quot;</span><span class="p">,</span>
+    <span class="n">icon</span> <span class="o">=</span> <span class="mi">5012544693</span>
+<span class="p">})</span>
 
--- // Sections for Test Page
-local SectionA = Test:addSection({
-    title = &quot;Section A&quot;
-})
-local SectionB = Test:addSection({
-    title = &quot;Section B&quot;
-})
+<span class="c1">-- // Sections for Test Page</span>
+<span class="kd">local</span> <span class="n">SectionA</span> <span class="o">=</span> <span class="n">Test</span><span class="p">:</span><span class="n">addSection</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Section A&quot;</span>
+<span class="p">})</span>
+<span class="kd">local</span> <span class="n">SectionB</span> <span class="o">=</span> <span class="n">Test</span><span class="p">:</span><span class="n">addSection</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Section B&quot;</span>
+<span class="p">})</span>
 
--- // Section A UI Elements
-SectionA:addToggle({
-    title = &quot;Toggle&quot;,
-    callback = function(value)
-        print(&quot;Toggled&quot;, value)
-    end
-})
+<span class="c1">-- // Section A UI Elements</span>
+<span class="n">SectionA</span><span class="p">:</span><span class="n">addToggle</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Toggle&quot;</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Toggled&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
-SectionA:addButton({
-    title = &quot;Button&quot;,
-    callback = function()
-        print(&quot;Clicked&quot;)
-    end
-})
+<span class="n">SectionA</span><span class="p">:</span><span class="n">addButton</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Button&quot;</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Clicked&quot;</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
-SectionA:addTextbox({
-    title = &quot;Notification&quot;,
-    default = &quot;Default&quot;,
-    callback = function(value, focusLost)
-        print(&quot;Input&quot;, value)
+<span class="n">SectionA</span><span class="p">:</span><span class="n">addTextbox</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Notification&quot;</span><span class="p">,</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">focusLost</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-        if (focusLost) then
-            UI:Notify(&quot;Title&quot;, value)
-        end
-    end
-})
+        <span class="kr">if</span> <span class="p">(</span><span class="n">focusLost</span><span class="p">)</span> <span class="kr">then</span>
+            <span class="n">UI</span><span class="p">:</span><span class="n">Notify</span><span class="p">({</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="p">})</span>
+        <span class="kr">end</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
--- // Section B UI Elements
-SectionB:addKeybind({
-    title = &quot;Toggle Keybind&quot;,
-    key = Enum.KeyCode.One,
-    callback = function()
-        print(&quot;Activated Keybind&quot;)
-        UI:toggle()
-    end,
-    changedCallback = function(key)
-        print(&quot;Changed Keybind&quot;, key)
-    end
-})
+<span class="c1">-- // Section B UI Elements</span>
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addKeybind</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Toggle Keybind&quot;</span><span class="p">,</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">.</span><span class="n">KeyCode</span><span class="p">.</span><span class="n">One</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Activated Keybind&quot;</span><span class="p">)</span>
+        <span class="n">UI</span><span class="p">:</span><span class="n">toggle</span><span class="p">()</span>
+    <span class="kr">end</span><span class="p">,</span>
+    <span class="n">changedCallback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Changed Keybind&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
-SectionB:addColorPicker({
-    title = &quot;ColorPicker&quot;,
-    default = Color3.fromRGB(50, 50, 50)
-})
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addColorPicker</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;ColorPicker&quot;</span><span class="p">,</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="n">Color3</span><span class="p">.</span><span class="n">fromRGB</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="p">})</span>
 
-SectionB:addColorPicker({
-    title = &quot;ColorPicker2&quot;
-})
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addColorPicker</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;ColorPicker2&quot;</span>
+<span class="p">})</span>
 
-SectionB:addSlider({
-    title = &quot;Slider&quot;,
-    default = 0,
-    min = -100,
-    max = 100,
-    callback = function(value)
-        print(&quot;Dragged&quot;, value)
-    end
-})
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addSlider</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Slider&quot;</span><span class="p">,</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">min</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dragged&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
-local dropdownContent = {&quot;Hello&quot;, &quot;World&quot;, &quot;Hello World&quot;, &quot;Word&quot;, 1, 2, 3} -- // To save me from keep on doing this
-SectionB:addDropdown({
-    title = &quot;Dropdown&quot;,
-    list = dropdownContent
-})
+<span class="kd">local</span> <span class="n">dropdownContent</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="s2">&quot;World&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello World&quot;</span><span class="p">,</span> <span class="s2">&quot;Word&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="c1">-- // To save me from keep on doing this</span>
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addDropdown</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+    <span class="n">list</span> <span class="o">=</span> <span class="n">dropdownContent</span>
+<span class="p">})</span>
 
-SectionB:addDropdown({
-    title = &quot;Dropdown&quot;,
-    list = dropdownContent,
-    callback = function(text)
-        print(&quot;Selected&quot;, text)
-    end
-})
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addDropdown</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Dropdown&quot;</span><span class="p">,</span>
+    <span class="n">list</span> <span class="o">=</span> <span class="n">dropdownContent</span><span class="p">,</span>
+    <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Selected&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="kr">end</span>
+<span class="p">})</span>
 
-SectionB:addButton({
-    title = &quot;Button&quot;
-})
+<span class="n">SectionB</span><span class="p">:</span><span class="n">addButton</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Button&quot;</span>
+<span class="p">})</span>
 
--- // Color Theme Customisation Page
-local Theme = UI:addPage({
-    title = &quot;Theme&quot;,
-    icon = 5012544693
-})
+<span class="c1">-- // Color Theme Customisation Page</span>
+<span class="kd">local</span> <span class="n">Theme</span> <span class="o">=</span> <span class="n">UI</span><span class="p">:</span><span class="n">addPage</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Theme&quot;</span><span class="p">,</span>
+    <span class="n">icon</span> <span class="o">=</span> <span class="mi">5012544693</span>
+<span class="p">})</span>
 
--- // Section for the Color Theme Customisation Page
-local Colors = Theme:addSection({
-    title = &quot;Colors&quot;
-})
+<span class="c1">-- // Section for the Color Theme Customisation Page</span>
+<span class="kd">local</span> <span class="n">Colors</span> <span class="o">=</span> <span class="n">Theme</span><span class="p">:</span><span class="n">addSection</span><span class="p">({</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Colors&quot;</span>
+<span class="p">})</span>
 
--- // Adding a color picker for each type of theme customisable
-for theme, color in pairs(Themes) do
-    Colors:addColorPicker({
-        title = theme,
-        default = color,
-        callback = function(color3)
-            UI:setTheme({
-                theme = theme, 
-                color3 = color3
-            })
-        end
-    })
-end
+<span class="c1">-- // Adding a color picker for each type of theme customisable</span>
+<span class="kr">for</span> <span class="n">theme</span><span class="p">,</span> <span class="n">color</span> <span class="kr">in</span> <span class="nb">pairs</span><span class="p">(</span><span class="n">Themes</span><span class="p">)</span> <span class="kr">do</span>
+    <span class="n">Colors</span><span class="p">:</span><span class="n">addColorPicker</span><span class="p">({</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">theme</span><span class="p">,</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span>
+        <span class="n">callback</span> <span class="o">=</span> <span class="kr">function</span><span class="p">(</span><span class="n">color3</span><span class="p">)</span>
+            <span class="n">UI</span><span class="p">:</span><span class="n">setTheme</span><span class="p">({</span>
+                <span class="n">theme</span> <span class="o">=</span> <span class="n">theme</span><span class="p">,</span> 
+                <span class="n">color3</span> <span class="o">=</span> <span class="n">color3</span>
+            <span class="p">})</span>
+        <span class="kr">end</span>
+    <span class="p">})</span>
+<span class="kr">end</span>
 
--- // Load
-UI:SelectPage({
-    page = UI.pages[1], 
-    toggle = true
-})
-</code></pre>
+<span class="c1">-- // Load</span>
+<span class="n">UI</span><span class="p">:</span><span class="n">SelectPage</span><span class="p">({</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="n">UI</span><span class="p">.</span><span class="n">pages</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+    <span class="n">toggle</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="p">})</span>
+</code></pre></div></p>
                 
               
               
