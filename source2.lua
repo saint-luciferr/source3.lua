@@ -36,7 +36,7 @@ do
 					objects[theme] = objects[theme] or {}
 					objects[theme][i] = objects[theme][i] or setmetatable({}, {_mode = "k"})
 
-					table.insert(objects[theme][i], object)
+					objects[theme][i][#objects[theme][i] + 1] = object
 				end
 			end
 		end
@@ -75,7 +75,7 @@ do
 
 		for i, value in pairs(values) do
 			if tostring(value):lower():find(pattern) then
-				table.insert(new, value)
+				new[#new + 1] = value
 			end
 		end
 
@@ -106,12 +106,12 @@ do
 	end
 
 	function utility:InitializeKeybind()
-		self.keybinds = {}
-		self.ended = {}
+		utility.keybinds = {}
+		utility.ended = {}
 
 		input.InputBegan:Connect(function(key)
-			if self.keybinds[key.KeyCode] then
-				for i, bind in pairs(self.keybinds[key.KeyCode]) do
+			if utility.keybinds[key.KeyCode] then
+				for i, bind in pairs(utility.keybinds[key.KeyCode]) do
 					bind()
 				end
 			end
@@ -119,7 +119,7 @@ do
 
 		input.InputEnded:Connect(function(key)
 			if key.UserInputType == Enum.UserInputType.MouseButton1 then
-				for i, callback in pairs(self.ended) do
+				for i, callback in pairs(utility.ended) do
 					callback()
 				end
 			end
@@ -128,15 +128,15 @@ do
 
 	function utility:BindToKey(key, callback)
 
-		self.keybinds[key] = self.keybinds[key] or {}
+		utility.keybinds[key] = utility.keybinds[key] or {}
 
-		table.insert(self.keybinds[key], callback)
+		utility.keybinds[key][#utility.keybinds[key] + 1] = callback
 
 		return {
 			UnBind = function()
-				for i, bind in pairs(self.keybinds[key]) do
+				for i, bind in pairs(utility.keybinds[key]) do
 					if bind == callback then
-						table.remove(self.keybinds[key], i)
+						table.remove(utility.keybinds[key], i)
 					end
 				end
 			end
@@ -193,7 +193,7 @@ do
 	end
 
 	function utility:DraggingEnded(callback)
-		table.insert(self.ended, callback)
+		utility.ended[#utility.ended + 1] = callback
 	end
 
 end
@@ -425,13 +425,13 @@ do
 		local title = data.title or "Page"
 		local icon = data.icon
 
-		local page = page.new(self, title, icon)
+		local page = page.new(library, title, icon)
 		local button = page.button
 
-		table.insert(self.pages, page)
+		library.pages[#library.pages + 1] = page
 
 		button.MouseButton1Click:Connect(function()
-			self:SelectPage({
+			library:SelectPage({
 				page = page,
 				toggle = true
 			})
@@ -443,9 +443,9 @@ do
 	function page:addSection(data)
 		local title = data.title or "Section"
 
-		local section = section.new(self, title)
+		local section = section.new(library, title)
 
-		table.insert(self.sections, section)
+		library.sections[#library.sections + 1] = section
 
 		return section
 	end
@@ -471,19 +471,19 @@ do
 
 	function library:toggle()
 
-		if self.toggling then
+		if library.toggling then
 			return
 		end
 
-		self.toggling = true
+		library.toggling = true
 
-		local container = self.container.Main
+		local container = library.container.Main
 		local topbar = container.TopBar
 
-		if self.position then
+		if library.position then
 			utility:Tween(container, {
 				Size = UDim2.new(0, 511, 0, 428),
-				Position = self.position
+				Position = library.position
 			}, 0.2)
 			wait(0.2)
 
@@ -491,9 +491,9 @@ do
 			wait(0.2)
 
 			container.ClipsDescendants = false
-			self.position = nil
+			library.position = nil
 		else
-			self.position = container.Position
+			library.position = container.Position
 			container.ClipsDescendants = true
 
 			utility:Tween(topbar, {Size = UDim2.new(1, 0, 1, 0)}, 0.2)
@@ -501,12 +501,12 @@ do
 
 			utility:Tween(container, {
 				Size = UDim2.new(0, 511, 0, 0),
-				Position = self.position + UDim2.new(0, 0, 0, 428)
+				Position = library.position + UDim2.new(0, 0, 0, 428)
 			}, 0.2)
 			wait(0.2)
 		end
 
-		self.toggling = false
+		library.toggling = false
 	end
 
 	-- new modules
@@ -517,14 +517,14 @@ do
 		local callback = data.callback or function() end
 
 		-- overwrite last notification
-		if self.activeNotification then
-			self.activeNotification = self.activeNotification()
+		if library.activeNotification then
+			library.activeNotification = library.activeNotification()
 		end
 
 		-- standard create
 		local notification = utility:Create("ImageLabel", {
 			Name = "Notification",
-			Parent = self.container,
+			Parent = library.container,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(0, 200, 0, 60),
 			Image = "rbxassetid://5028857472",
@@ -643,7 +643,7 @@ do
 			notification:Destroy()
 		end
 
-		self.activeNotification = close
+		library.activeNotification = close
 
 		notification.Accept.MouseButton1Click:Connect(function()
 
@@ -679,7 +679,7 @@ do
 
 		local button = utility:Create("ImageButton", {
 			Name = "Button",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -703,8 +703,8 @@ do
 		})
 
 		local module = {Instance = button, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local text = button.Title
 		local debounce
@@ -752,7 +752,7 @@ do
 
 		local toggle = utility:Create("ImageButton", {
 			Name = "Toggle",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -802,10 +802,10 @@ do
 			})
 		})
 		local module = {Instance = toggle, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
-		self:updateToggle(module)
+		section:updateToggle(module)
 
 		function this:Update(dataOptions)
 			-- // Overwriting settings
@@ -820,7 +820,7 @@ do
 
 		toggle.MouseButton1Click:Connect(function()
 			this.toggled = not this.toggled
-			self:updateToggle(module)
+			section:updateToggle(module)
 
 			this.callback(this.toggled)
 		end)
@@ -835,7 +835,7 @@ do
 
 		local textbox = utility:Create("ImageButton", {
 			Name = "Textbox",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -885,8 +885,8 @@ do
 			})
 		})
 		local module = {Instance = textbox, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local button = textbox.Button
 		local tInput = button.Textbox
@@ -952,7 +952,7 @@ do
 
 		local keybind = utility:Create("ImageButton", {
 			Name = "Keybind",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -1001,8 +1001,8 @@ do
 			})
 		})
 		local module = {Instance = keybind, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local text = keybind.Button.Text
 		local button = keybind.Button
@@ -1013,20 +1013,20 @@ do
 			end
 		end
 
-		self.binds[keybind] = {callback = function()
+		section.binds[keybind] = {callback = function()
 			animate()
 			this.callback()
 		end}
 
-		self:updateKeybind(module)
+		section:updateKeybind(module)
 
 		keybind.MouseButton1Click:Connect(function()
 
 			animate()
 
-			if self.binds[keybind].connection then -- unbind
+			if section.binds[keybind].connection then -- unbind
 			    this.key = Enum.KeyCode.Unknown
-				return self:updateKeybind(module)
+				return section:updateKeybind(module)
 			end
 
 			if text.Text == "Unknown" then -- new bind
@@ -1034,7 +1034,7 @@ do
 
 				this.key = utility:KeyPressed()
 
-				self:updateKeybind(module)
+				section:updateKeybind(module)
 				animate()
 
 				this.changedCallback(this.key)
@@ -1063,7 +1063,7 @@ do
 
 		local colorpicker = utility:Create("ImageButton", {
 			Name = "ColorPicker",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Size = UDim2.new(1, 0, 0, 30),
@@ -1103,7 +1103,7 @@ do
 
 		local tab = utility:Create("ImageLabel", {
 			Name = "ColorPicker",
-			Parent = self.page.library.container,
+			Parent = section.page.library.container,
 			BackgroundTransparency = 1,
 			Position = UDim2.new(0.75, 0, 0.400000006, 0),
 			Selectable = true,
@@ -1365,8 +1365,8 @@ do
 
 		utility:DraggingEnabled(tab)
 		local module = {Instance = colorpicker, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local allowed = {
 			[""] = true
@@ -1387,7 +1387,7 @@ do
 			b = 255
 		}
 
-		self.colorpickers[colorpicker] = {
+		section.colorpickers[colorpicker] = {
 			tab = tab,
 			callback = function(prop, value)
 				rgb[prop] = value
@@ -1399,7 +1399,7 @@ do
 			draggingColor, draggingCanvas = false, false
 		end)
 
-		self:updateColorPicker(module)
+		section:updateColorPicker(module)
 
 		hue, sat, brightness = Color3.toHSV(this.default)
 		this.default = Color3.fromHSV(hue, sat, brightness)
@@ -1436,7 +1436,7 @@ do
 						this.default = Color3.fromRGB(rgb.r, rgb.g, rgb.b)
 						hue, sat, brightness = Color3.toHSV(this.color3)
 
-						self:updateColorPicker(module)
+						section:updateColorPicker(module)
 						this.callback(this.color3)
 					end
 				end)
@@ -1460,7 +1460,7 @@ do
 				end
 
 				this.default = Color3.fromHSV(hue, sat, brightness)
-				self:updateColorPicker(module)
+				section:updateColorPicker(module)
 				utility:Tween(canvas.Cursor, {Position = UDim2.new(sat, 0, 1 - brightness, 0)}, 0.1) -- overwrite
 
 				this.callback(this.color3)
@@ -1482,7 +1482,7 @@ do
 
 				local x = hue -- hue is updated
 				this.default = Color3.fromHSV(hue, sat, brightness)
-				self:updateColorPicker(module)
+				section:updateColorPicker(module)
 				utility:Tween(tab.Container.Color.Select, {Position = UDim2.new(x, 0, 0, 0)}, 0.1) -- overwrite
 
 				this.callback(this.color3)
@@ -1523,11 +1523,11 @@ do
 
 			if visible then
 
-				if self.page.library.activePicker and self.page.library.activePicker ~= animate then
-					self.page.library.activePicker(nil, true)
+				if section.page.library.activePicker and section.page.library.activePicker ~= animate then
+					section.page.library.activePicker(nil, true)
 				end
 
-				self.page.library.activePicker = animate
+				section.page.library.activePicker = animate
 				lastColor = Color3.fromHSV(hue, sat, brightness)
 
 				local x1, x2 = button.AbsoluteSize.X / 2, 162--tab.AbsoluteSize.X
@@ -1570,7 +1570,7 @@ do
 
 		tab.Close.MouseButton1Click:Connect(function()
 			this.default = lastColor
-			self:updateColorPicker(module)
+			section:updateColorPicker(module)
 			animate()
 		end)
 
@@ -1599,7 +1599,7 @@ do
 
 		local slider = utility:Create("ImageButton", {
 			Name = "Slider",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			BorderSizePixel = 0,
 			Position = UDim2.new(0.292817682, 0, 0.299145311, 0),
@@ -1683,8 +1683,8 @@ do
 		})
 
 		local module = {Instance = slider, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local allowed = {
 			[""] = true,
@@ -1696,7 +1696,7 @@ do
 
 		local dragging
 
-		self:updateSlider(module)
+		section:updateSlider(module)
 
 		utility:DraggingEnded(function()
 			dragging = false
@@ -1709,7 +1709,7 @@ do
 				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
 
 				this.value = nil
-				this.value = self:updateSlider(module)
+				this.value = section:updateSlider(module)
 				this.callback(this.value)
 
 				utility:Wait()
@@ -1722,7 +1722,7 @@ do
 		textbox.FocusLost:Connect(function()
 			if not tonumber(textbox.Text) then
 				this.value = nil
-				this.value = self:updateSlider(module)
+				this.value = section:updateSlider(module)
 				this.callback(this.value)
 			end
 		end)
@@ -1734,7 +1734,7 @@ do
 				textbox.Text = text:sub(1, #text - 1)
 			elseif not allowed[text] then
 				this.value = nil
-				this.value = self:updateSlider(module)
+				this.value = section:updateSlider(module)
 				this.callback(this.value)
 			end
 		end)
@@ -1763,7 +1763,7 @@ do
 
 		local dropdown = utility:Create("Frame", {
 			Name = "Dropdown",
-			Parent = self.container,
+			Parent = section.container,
 			BackgroundTransparency = 1,
 			Size = UDim2.new(1, 0, 0, 30),
 			ClipsDescendants = true
@@ -1843,8 +1843,8 @@ do
 		})
 
 		local module = {Instance = dropdown, Options = this}
-		self.modules[#self.modules + 1] = module
-		--self:Resize()
+		section.modules[#section.modules + 1] = module
+		--section:Resize()
 
 		local search = dropdown.Search
 		local focused
@@ -1853,17 +1853,17 @@ do
 			if search.Button.Rotation == 0 then
 				this.title = nil
 				this.list = this.backuplist
-				self:updateDropdown(module)
+				section:updateDropdown(module)
 			else
 				this.title = nil
 				this.list = nil
-				self:updateDropdown(module)
+				section:updateDropdown(module)
 			end
 		end)
 
 		search.TextBox.Focused:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(module)
+				section:updateDropdown(module)
 			end
 
 			focused = true
@@ -1879,12 +1879,12 @@ do
 				this.list = #_list ~= 0 and _list
 
 				this.title = nil
-				self:updateDropdown(module)
+				section:updateDropdown(module)
 			end
 		end)
 
 		dropdown:GetPropertyChangedSignal("Size"):Connect(function()
-			self:Resize()
+			section:Resize()
 		end)
 
         function this:Update(dataOptions)
@@ -1913,7 +1913,7 @@ do
 		local page = data.page
 		local toggle = data.toggle
 
-		if toggle and self.focusedPage == page then -- already selected
+		if toggle and library.focusedPage == page then -- already selected
 			return
 		end
 
@@ -1929,11 +1929,11 @@ do
 			end
 
 			-- update selected page
-			local focusedPage = self.focusedPage
-			self.focusedPage = page
+			local focusedPage = library.focusedPage
+			library.focusedPage = page
 
 			if focusedPage then
-				self:SelectPage({
+				library:SelectPage({
 					page = focusedPage
 				})
 			end
@@ -2010,42 +2010,42 @@ do
 		local padding = 10
 		local size = 0
 
-		for i, section in pairs(self.sections) do
+		for i, section in pairs(page.sections) do
 			size = size + section.container.Parent.AbsoluteSize.Y + padding
 		end
 
-		self.container.CanvasSize = UDim2.new(0, 0, 0, size)
-		self.container.ScrollBarImageTransparency = size > self.container.AbsoluteSize.Y
+		page.container.CanvasSize = UDim2.new(0, 0, 0, size)
+		page.container.ScrollBarImageTransparency = size > page.container.AbsoluteSize.Y
 
 		if scroll then
-			utility:Tween(self.container, {CanvasPosition = Vector2.new(0, self.lastPosition or 0)}, 0.2)
+			utility:Tween(page.container, {CanvasPosition = Vector2.new(0, page.lastPosition or 0)}, 0.2)
 		end
 	end
 
 	function section:Resize(smooth)
 
-		if self.page.library.focusedPage ~= self.page then
+		if section.page.library.focusedPage ~= section.page then
 			return
 		end
 
 		local padding = 4
-		local size = (4 * padding) + self.container.Title.AbsoluteSize.Y -- offset
+		local size = (4 * padding) + section.container.Title.AbsoluteSize.Y -- offset
 
-		for i, module in pairs(self.modules) do
+		for i, module in pairs(section.modules) do
 			size = size + module.Instance.AbsoluteSize.Y + padding
 		end
 
 		if smooth then
-			utility:Tween(self.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
+			utility:Tween(section.container.Parent, {Size = UDim2.new(1, -10, 0, size)}, 0.05)
 		else
-			self.container.Parent.Size = UDim2.new(1, -10, 0, size)
-			self.page:Resize()
+			section.container.Parent.Size = UDim2.new(1, -10, 0, size)
+			section.page:Resize()
 		end
 	end
 
 	function section:getModule(info)
-		for i = 1, #self.modules do
-			local module = self.modules[i]
+		for i = 1, #section.modules do
+			local module = section.modules[i]
 			local object = module.Instance
 
 			if (((object:FindFirstChild("Title") or object:FindFirstChild("TextBox", true)).Text == info) or object == info) then
@@ -2102,7 +2102,7 @@ do
 		end
 
 		local text = keybind.Button.Text
-		local bind = self.binds[keybind]
+		local bind = section.binds[keybind]
 
 		keybind.Title.Text = module.Options.title
 
@@ -2111,7 +2111,7 @@ do
 		end
 
 		if options.key ~= Enum.KeyCode.Unknown then
-			self.binds[keybind].connection = utility:BindToKey(options.key, bind.callback)
+			section.binds[keybind].connection = utility:BindToKey(options.key, bind.callback)
 			text.Text = input:GetStringForKeyCode(options.key)
 		else
 			text.Text = "Unknown"
@@ -2122,7 +2122,7 @@ do
 		local colorpicker = module.Instance
 		local options = module.Options
 
-		local picker = self.colorpickers[colorpicker]
+		local picker = section.colorpickers[colorpicker]
 		local tab = picker.tab
 
 		colorpicker.Title.Text = options.title
@@ -2230,7 +2230,7 @@ do
 
 				options.title = value
 				options.list = nil
-				self:updateDropdown(module)
+				section:updateDropdown(module)
 			end)
 
 			entries = entries + 1
