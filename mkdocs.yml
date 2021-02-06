@@ -23,6 +23,14 @@ nav:
             - Resize: ./APIReference/Page/resize.md
         - Section:
             - Index: ./APIReference/Section/index.md
+            - Add Button: ./APIReference/Section/addbutton.md
+            - Add Toggle: ./APIReference/Section/addtoggle.md
+            - Add Text Box: ./APIReference/Section/addtextbox.md
+            - Add Keybind: ./APIReference/Section/addkeybind.md
+            - Add Color Picker: ./APIReference/Section/addcolorpicker.md
+            - Add Slider: ./APIReference/Section/addslider.md
+            - Add Dropdown: ./APIReference/Section/adddropdown.md
+            - Resize: ./APIReference/Section/resize.md
 theme:
     name: material
     hightlightjs: true

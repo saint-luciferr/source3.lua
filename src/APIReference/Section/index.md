@@ -1,4 +1,11 @@
 # Section
+A section can contain UI elements. A `Section` object has the following methods:
 
-!!! danger "Be Aware"
-    This is under construction.
+* `Section:addButton`
+* `Section:addToggle`
+* `Section:addTextbox`
+* `Section:addKeybind`
+* `Section:addColorPicker`
+* `Section:addSlider`
+* `Section:addDropdown`
+* `Section:Resize`
