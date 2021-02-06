@@ -426,7 +426,7 @@ do
 		local icon = data.icon
 
 		local newPage = page.new(self, title, icon)
-		local button = page.button
+		local button = newPage.button
 
 		self.pages[#self.pages + 1] = newPage
 
@@ -1935,7 +1935,7 @@ do
 
 			if focusedPage then
 				self:SelectPage({
-					selectedPage = focusedPage
+					page = focusedPage
 				})
 			end
 
@@ -2261,4 +2261,5 @@ do
 	end
 end
 
+--getgenv().Venyx = library
 return library
