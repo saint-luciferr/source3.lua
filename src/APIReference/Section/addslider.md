@@ -8,14 +8,14 @@ Creates a slider.
 * table `options`
 > A table that configures the new slider
 
-| Field      | Type       | Default Value       |  Description                     |
-| ---------- | ---------- | ------------------- | -------------------------------- |
-| `title`    | `string`   | `nil text`          | The title of the slider          |
-| `min`      | `number`   | `0`                 | The minimum value of the slider  |
-| `default`  | `number`   | `Options.min`       | The inital value of the slider   |
-| `max`      | `number`   | `100`               | The maximum value of the slider  |
-| `value`    | `number`   | `Options.default`   | The current value of the slider  |
-| `callback` | `function` |                     | Called when slider changed       |
+| Field      | Type       | Default Value     |  Description                     |
+| ---------- | ---------- | ----------------- | -------------------------------- |
+| `title`    | `string`   | `nil text`        | The title of the slider          |
+| `min`      | `number`   | `0`               | The minimum value of the slider  |
+| `default`  | `number`   | `Options.min`     | The inital value of the slider   |
+| `max`      | `number`   | `100`             | The maximum value of the slider  |
+| `value`    | `number`   | `Options.default` | The current value of the slider  |
+| `callback` | `function` |                   | Called when slider changed       |
 
 ## Returns
 * `table`
@@ -26,11 +26,12 @@ Creates a slider.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field      | Type       | Default Value       |  Description                     |
-| ---------- | ---------- | ------------------- | -------------------------------- |
-| `title`    | `string`   | `nil text`          | The title of the slider          |
-| `min`      | `number`   | `0`                 | The minimum value of the slider  |
-| `default`  | `number`   | `Options.min`       | The inital value of the slider   |
-| `max`      | `number`   | `100`               | The maximum value of the slider  |
-| `value`    | `number`   | `Options.default`   | The current value of the slider  |
-| `callback` | `function` |                     | Called when slider changed       |
+| Field                          | Type       | Default Value     |  Description                                    |
+| ------------------------------ | ---------- | ----------------- | ----------------------------------------------- |
+| `title`                        | `string`   | `nil text`        | The title of the slider                         |
+| `min`                          | `number`   | `0`               | The minimum value of the slider                 |
+| `default`                      | `number`   | `Options.min`     | The inital value of the slider                  |
+| `max`                          | `number`   | `100`             | The maximum value of the slider                 |
+| `value`                        | `number`   | `Options.default` | The current value of the slider                 |
+| `callback`                     | `function` |                   | Called when slider changed                      |
+| `<?> :Update(<table> Options)` | `method`   |                   | Update any of the options present in this table |

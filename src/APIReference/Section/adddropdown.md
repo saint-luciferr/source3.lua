@@ -8,13 +8,13 @@ Creates a dropdown.
 * table `options`
 > A table that configures the new dropdown
 
-| Field        | Type       | Default Value      | Description                                 |
-| ------------ | ---------- | ------------------ | ------------------------------------------- |
-| `title`      | `string`   | `nil text`         | The title of the dropdown                   |
-| `default`    | `string`   |                    | The default value of thing selected         |
-| `list`       | `table`    | `{}`               | The inital value of the dropdown            |
-| `backuplist` | `table`    | `Options.list`     | The backup list when everything is removed  |
-| `callback`   | `function` |                    | Called when clicked                         |
+| Field        | Type       | Default Value  | Description                                |
+| ------------ | ---------- | -------------- | ------------------------------------------ |
+| `title`      | `string`   | `nil text`     | The title of the dropdown                  |
+| `default`    | `string`   |                | The default value of thing selected        |
+| `list`       | `table`    | `{}`           | The inital value of the dropdown           |
+| `backuplist` | `table`    | `Options.list` | The backup list when everything is removed |
+| `callback`   | `function` |                | Called when clicked                        |
 
 ## Returns
 * `table`
@@ -25,10 +25,11 @@ Creates a dropdown.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field        | Type       | Default Value      | Description                                 |
-| ------------ | ---------- | ------------------ | ------------------------------------------- |
-| `title`      | `string`   | `nil text`         | The title of the dropdown                   |
-| `default`    | `string`   |                    | The default value of thing selected         |
-| `list`       | `table`    | `{}`               | The inital value of the dropdown            |
-| `backuplist` | `table`    | `Options.list`     | The backup list when everything is removed  |
-| `callback`   | `function` |                    | Called when clicked                         |
+| Field                            | Type       | Default Value  | Description                                     |
+| -------------------------------- | ---------- | -------------- | ----------------------------------------------- |
+| `title`                          | `string`   | `nil text`     | The title of the dropdown                       |
+| `default`                        | `string`   |                | The default value of thing selected             |
+| `list`                           | `table`    | `{}`           | The inital value of the dropdown                |
+| `backuplist`                     | `table`    | `Options.list` | The backup list when everything is removed      |
+| `callback`                       | `function` |                | Called when clicked                             |
+| `<?> :Update(<table> Options)`   | `method`   |                | Update any of the options present in this table |

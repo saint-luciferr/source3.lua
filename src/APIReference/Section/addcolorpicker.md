@@ -23,8 +23,9 @@ Creates a color picker.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field      | Type       | Default Value                   |  Description                         |
-| ---------- | ---------- | ------------------------------- | ------------------------------------ |
-| `title`    | `string`   | `nil text`                      | The title of the color picker        |
-| `default`  | `Color3`   | `Color3.fromRGB(255, 150, 150)` | The inital color of the color picker |
-| `callback` | `function` |                                 | Called when color changed            |
+| Field                            | Type       | Default Value                   |  Description                                    |
+| -------------------------------- | ---------- | ------------------------------- | ----------------------------------------------- |
+| `title`                          | `string`   | `nil text`                      | The title of the color picker                   |
+| `default`                        | `Color3`   | `Color3.fromRGB(255, 150, 150)` | The inital color of the color picker            |
+| `callback`                       | `function` |                                 | Called when color changed                       |
+| `<?> :Update(<table> Options)`   | `method`   |                                 | Update any of the options present in this table |

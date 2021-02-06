@@ -8,11 +8,11 @@ Creates a text box.
 * table `options`
 > A table that configures the new text box
 
-| Field      | Type       | Default Value  | Description                       |
-| ---------- | ---------- | -------------- | --------------------------------- |
-| `title`    | `string`   | `nil text`     | The title of the text box         |
-| `default`  | `boolean`  | `nil text`     | The inital value of the text box  |
-| `callback` | `function` |                | Called when clicked               |
+| Field      | Type       | Default Value  | Description                      |
+| ---------- | ---------- | -------------- | -------------------------------- |
+| `title`    | `string`   | `nil text`     | The title of the text box        |
+| `default`  | `boolean`  | `nil text`     | The inital value of the text box |
+| `callback` | `function` |                | Called when clicked              |
 
 ## Returns
 * `table`
@@ -23,8 +23,9 @@ Creates a text box.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field      | Type       | Default Value  | Description                       |
-| ---------- | ---------- | -------------- | --------------------------------- |
-| `title`    | `string`   | `nil text`     | The title of the text box         |
-| `default`  | `boolean`  | `nil text`     | The inital value of the text box  |
-| `callback` | `function` |                | Called when clicked               |
+| Field                          | Type       | Default Value  | Description                                     |
+| ------------------------------ | ---------- | -------------- | ----------------------------------------------- |
+| `title`                        | `string`   | `nil text`     | The title of the text box                       |
+| `default`                      | `boolean`  | `nil text`     | The inital value of the text box                |
+| `callback`                     | `function` |                | Called when clicked                             |
+| `<?> :Update(<table> Options)` | `method`   |                | Update any of the options present in this table |

@@ -22,7 +22,8 @@ Creates a button.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field      | Type       | Default Value  | Description             |
-| ---------- | ---------- | -------------- | ----------------------- |
-| `title`    | `string`   | `nil text`     | The title of the button |
-| `callback` | `function` |                | Called when clicked     |
+| Field                            | Type       | Default Value | Description                                     |
+| -------------------------------- | ---------- | ------------- | ----------------------------------------------- |
+| `title`                          | `string`   | `nil text`    | The title of the button                         |
+| `callback`                       | `function` |               | Called when clicked                             |
+| `<?> :Update(<table> Options)`   | `method`   |               | Update any of the options present in this table |

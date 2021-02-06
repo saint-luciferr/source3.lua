@@ -24,9 +24,10 @@ Creates a keybind.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field             | Type       | Default Value          | Description                    |
-| ----------------- | ---------- | ---------------------- | ------------------------------ |
-| `title`           | `string`   | `nil text`             | The title of the keybind       |
-| `key`             | `KeyCode`  | `Enum.KeyCode.Unknown` | The bounded key to the keybind |
-| `callback`        | `function` |                        | Called when key is pressed     |
-| `changedCallback` | `function` |                        | Called when keybind is changed |
+| Field                          | Type       | Default Value          | Description                                     |
+| ------------------------------ | ---------- | ---------------------- | ----------------------------------------------- |
+| `title`                        | `string`   | `nil text`             | The title of the keybind                        |
+| `key`                          | `KeyCode`  | `Enum.KeyCode.Unknown` | The bounded key to the keybind                  |
+| `callback`                     | `function` |                        | Called when key is pressed                      |
+| `changedCallback`              | `function` |                        | Called when keybind is changed                  |
+| `<?> :Update(<table> Options)` | `method`   |                        | Update any of the options present in this table |

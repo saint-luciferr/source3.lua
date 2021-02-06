@@ -23,10 +23,9 @@ Creates a toggle.
 | `Options`  | `table`    | See below                    |
 
 ## Options
-| Field              | Type       | Default Value  | Description                    |
-| ------------------ | ---------- | -------------- | ------------------------------ |
-| `title`            | `string`   | `nil text`     | The title of the button        |
-| `default`          | `boolean`  | `false`        | The inital value of the toggle |
-| `callback`         | `function` |                | Called when clicked            |
-| `<boolean> :Get()` | `method`   |                | Returns the current state      |
-| `<nil> :Set()`     | `method`   |                | Sets the state of the toggle   |
+| Field                          | Type       | Default Value  | Description                                     |
+| ------------------------------ | ---------- | -------------- | ----------------------------------------------- |
+| `title`                        | `string`   | `nil text`     | The title of the button                         |
+| `default`                      | `boolean`  | `false`        | The inital value of the toggle                  |
+| `callback`                     | `function` |                | Called when clicked                             |
+| `<?> :Update(<table> Options)` | `method`   |                | Update any of the options present in this table |
