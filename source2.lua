@@ -733,7 +733,7 @@ do
 		function this:Update(dataOptions)
             -- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
             end
@@ -810,7 +810,7 @@ do
 		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
 			end
@@ -933,7 +933,7 @@ do
 		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
 			end
@@ -1045,7 +1045,7 @@ do
 		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
 			end
@@ -1578,7 +1578,7 @@ do
 		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
 			end
@@ -1743,7 +1743,7 @@ do
 		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
 			end
@@ -1891,7 +1891,7 @@ do
         function this:Update(dataOptions)
             -- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i]) then
+                if (module.Options[i] and i ~= "Update") then
                     module.Options[i] = v
                 end
             end
