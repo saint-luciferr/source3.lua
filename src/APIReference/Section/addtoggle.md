@@ -11,7 +11,7 @@ Creates a toggle.
 | Field      | Type       | Default Value  | Description                    |
 | ---------- | ---------- | -------------- | ------------------------------ |
 | `title`    | `string`   | `nil text`     | The title of the button        |
-| `default`  | `boolean`  | `false`        | The inital value of the toggle |
+| `toggled`  | `boolean`  | `false`        | The inital value of the toggle |
 | `callback` | `function` |                | Called when clicked            |
 
 ## Returns
@@ -26,6 +26,6 @@ Creates a toggle.
 | Field                          | Type       | Default Value  | Description                                     |
 | ------------------------------ | ---------- | -------------- | ----------------------------------------------- |
 | `title`                        | `string`   | `nil text`     | The title of the button                         |
-| `default`                      | `boolean`  | `false`        | The inital value of the toggle                  |
+| `toggled`                      | `boolean`  | `false`        | The inital value of the toggle                  |
 | `callback`                     | `function` |                | Called when clicked                             |
 | `<?> :Update(<table> Options)` | `method`   |                | Update any of the options present in this table |
