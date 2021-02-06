@@ -425,29 +425,29 @@ do
 		local title = data.title or "Page"
 		local icon = data.icon
 
-		local page = page.new(self, title, icon)
+		local newPage = page.new(self, title, icon)
 		local button = page.button
 
-		self.pages[#self.pages + 1] = page
+		self.pages[#self.pages + 1] = newPage
 
 		button.MouseButton1Click:Connect(function()
 			self:SelectPage({
-				page = page,
+				page = newPage,
 				toggle = true
 			})
 		end)
 
-		return page
+		return newPage
 	end
 
 	function page:addSection(data)
 		local title = data.title or "Section"
 
-		local section = section.new(self, title)
+		local newSection = section.new(self, title)
 
-		self.sections[#self.sections + 1] = section
+		self.sections[#self.sections + 1] = newSection
 
-		return section
+		return newSection
 	end
 
 	-- functions
@@ -830,8 +830,9 @@ do
 
 	function section:addTextbox(data)
 		local this = {}
-		this.default = data.default or "nil text"
 		this.title = data.title or "nil text"
+		this.callback = data.callback or function() end
+		this.default = data.default or "nil text"
 
 		local textbox = utility:Create("ImageButton", {
 			Name = "Textbox",
@@ -1910,14 +1911,14 @@ do
 	-- class functions
 
 	function library:SelectPage(data)
-		local page = data.page
+		local selectedPage = data.page
 		local toggle = data.toggle
 
 		if toggle and self.focusedPage == page then -- already selected
 			return
 		end
 
-		local button = page.button
+		local button = selectedPage.button
 
 		if toggle then
 			-- page button
@@ -1930,60 +1931,60 @@ do
 
 			-- update selected page
 			local focusedPage = self.focusedPage
-			self.focusedPage = page
+			self.focusedPage = selectedPage
 
 			if focusedPage then
 				self:SelectPage({
-					page = focusedPage
+					selectedPage = focusedPage
 				})
 			end
 
 			-- sections
 			local existingSections = focusedPage and #focusedPage.sections or 0
-			local sectionsRequired = #page.sections - existingSections
+			local sectionsRequired = #selectedPage.sections - existingSections
 
-			page:Resize()
+			selectedPage:Resize()
 
-			for i, section in pairs(page.sections) do
-				section.container.Parent.ImageTransparency = 0
+			for i = 1, #selectedPage.sections do
+				local pageSection = selectedPage.sections[i]
+				pageSection.container.Parent.ImageTransparency = 0
 			end
-
 			if sectionsRequired < 0 then -- "hides" some sections
-				for i = existingSections, #page.sections + 1, -1 do
-					local section = focusedPage.sections[i].container.Parent
+				for i = existingSections, #selectedPage.sections + 1, -1 do
+					local pageSection = focusedPage.sections[i].container.Parent
 
-					utility:Tween(section, {ImageTransparency = 1}, 0.1)
+					utility:Tween(pageSection, {ImageTransparency = 1}, 0.1)
 				end
 			end
 
 			wait(0.1)
-			page.container.Visible = true
+			selectedPage.container.Visible = true
 
 			if focusedPage then
 				focusedPage.container.Visible = false
 			end
 
 			if sectionsRequired > 0 then -- "creates" more section
-				for i = existingSections + 1, #page.sections do
-					local section = page.sections[i].container.Parent
+				for i = existingSections + 1, #selectedPage.sections do
+					local pageSection = selectedPage.sections[i].container.Parent
 
-					section.ImageTransparency = 1
-					utility:Tween(section, {ImageTransparency = 0}, 0.05)
+					pageSection.ImageTransparency = 1
+					utility:Tween(pageSection, {ImageTransparency = 0}, 0.05)
 				end
 			end
 
 			wait(0.05)
 
-			for i, section in pairs(page.sections) do
-
-				utility:Tween(section.container.Title, {TextTransparency = 0}, 0.1)
-				section:Resize(true)
+			for i = 1, #selectedPage.sections do
+				local pageSection = selectedPage.sections[i]
+				utility:Tween(pageSection.container.Title, {TextTransparency = 0}, 0.1)
+				pageSection:Resize(true)
 
 				wait(0.05)
 			end
 
 			wait(0.05)
-			page:Resize(true)
+			selectedPage:Resize(true)
 		else
 			-- page button
 			button.Title.Font = Enum.Font.Gotham
@@ -1994,15 +1995,16 @@ do
 			end
 
 			-- sections
-			for i, section in pairs(page.sections) do
-				utility:Tween(section.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
-				utility:Tween(section.container.Title, {TextTransparency = 1}, 0.1)
+			for i = 1, #selectedPage.sections do
+				local pageSection = selectedPage.sections[i]
+				utility:Tween(pageSection.container.Parent, {Size = UDim2.new(1, -10, 0, 28)}, 0.1)
+				utility:Tween(pageSection.container.Title, {TextTransparency = 1}, 0.1)
 			end
 
 			wait(0.1)
 
-			page.lastPosition = page.container.CanvasPosition.Y
-			page:Resize()
+			selectedPage.lastPosition = selectedPage.container.CanvasPosition.Y
+			selectedPage:Resize()
 		end
 	end
 
@@ -2010,8 +2012,9 @@ do
 		local padding = 10
 		local size = 0
 
-		for i, section in pairs(self.sections) do
-			size = size + section.container.Parent.AbsoluteSize.Y + padding
+		for i = 1, #self.sections do
+			local pageSection = self.sections[i]
+			size = size + pageSection.container.Parent.AbsoluteSize.Y + padding
 		end
 
 		self.container.CanvasSize = UDim2.new(0, 0, 0, size)
