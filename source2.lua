@@ -730,6 +730,17 @@ do
 			debounce = false
 		end)
 
+		function this:Update(dataOptions)
+            -- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+            end
+
+			return section:updateButton(module)
+		end
+
 		return module
 	end
 
@@ -796,15 +807,7 @@ do
 
 		self:updateToggle(module)
 
-		function this:Get()
-			return this.toggled
-		end
-
-		function this:Set(val)
-			self:updateToggle({toggled = val})
-		end
-
-		function this:updateToggle(dataOptions)
+		function this:Update(dataOptions)
 			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i]) then
@@ -812,7 +815,7 @@ do
                 end
 			end
 
-			return self:updateToggle(module)
+			return section:updateToggle(module)
 		end
 
 		toggle.MouseButton1Click:Connect(function()
@@ -926,6 +929,17 @@ do
 			this.callback(tInput.Text, true)
 		end)
 
+		function this:Update(dataOptions)
+			-- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+			end
+
+			return section:updateTextbox(module)
+		end
+
 		return module
 	end
 
@@ -1026,6 +1040,17 @@ do
 				this.changedCallback(this.key)
 			end
 		end)
+
+		function this:Update(dataOptions)
+			-- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+			end
+
+			return section:updateKeybind(module)
+		end
 
 		return module
 	end
@@ -1549,6 +1574,17 @@ do
 			animate()
 		end)
 
+		function this:Update(dataOptions)
+			-- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+			end
+
+			return section:updateColorPicker(module)
+		end
+
 		return module
 	end
 
@@ -1703,6 +1739,17 @@ do
 			end
 		end)
 
+		function this:Update(dataOptions)
+			-- // Overwriting settings
+            for i,v in pairs(dataOptions) do
+                if (module.Options[i]) then
+                    module.Options[i] = v
+                end
+			end
+
+			return section:updateSlider(module)
+		end
+
 		return module
 	end
 
@@ -1840,8 +1887,7 @@ do
 			self:Resize()
 		end)
 
-		local _self = self
-        function this:updateDropdown(dataOptions)
+        function this:Update(dataOptions)
             -- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (module.Options[i]) then
@@ -1849,17 +1895,13 @@ do
                 end
             end
 
-			return _self:updateDropdown(module)
+			return section:updateDropdown(module)
 		end
 
 		if (this.default) then
-			this:updateDropdown({
+			this:Update({
 				title = this.default
 			})
-		end
-
-		function this:Get()
-			return search.TextBox.Text
 		end
 
 		return module
