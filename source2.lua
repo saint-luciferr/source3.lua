@@ -1850,6 +1850,11 @@ do
 		local search = dropdown.Search
 		local focused
 
+		-- // Tostring the list
+		for i,v in pairs(this.list) do
+			this.list[i] = tostring(v)
+		end
+
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
 				self:updateDropdown(module)
