@@ -1857,14 +1857,17 @@ do
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
+				this.title = nil
 				self:updateDropdown(module)
 			else
+				this.title = nil
 				self:updateDropdown(module, true)
 			end
 		end)
 
 		search.TextBox.Focused:Connect(function()
 			if search.Button.Rotation == 0 then
+				this.title = nil
 				self:updateDropdown(module, true)
 			end
 
@@ -1880,6 +1883,7 @@ do
 				local _list = utility:Sort(search.TextBox.Text, data.list)
 				this.list = #_list ~= 0 and _list
 
+				this.title = nil
 				self:updateDropdown(module)
 			end
 		end)
