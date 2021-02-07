@@ -1852,19 +1852,15 @@ do
 
 		search.Button.MouseButton1Click:Connect(function()
 			if search.Button.Rotation == 0 then
-				this.title = nil
-				this.list = this.backuplist
 				self:updateDropdown(module)
 			else
-				this.title = nil
-				this.list = nil
-				self:updateDropdown(module)
+				self:updateDropdown(module, true)
 			end
 		end)
 
 		search.TextBox.Focused:Connect(function()
 			if search.Button.Rotation == 0 then
-				self:updateDropdown(module)
+				self:updateDropdown(module, true)
 			end
 
 			focused = true
@@ -1879,7 +1875,6 @@ do
 				local _list = utility:Sort(search.TextBox.Text, data.list)
 				this.list = #_list ~= 0 and _list
 
-				this.title = nil
 				self:updateDropdown(module)
 			end
 		end)
@@ -1888,12 +1883,12 @@ do
 			self:Resize()
 		end)
 
-        function this:Update(dataOptions)
-            -- // Overwriting settings
+		function this:Update(dataOptions)
+			-- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (module.Options[i] and i ~= "Update") then
+                if (i ~= "Update" and module.Options[i]) then
                     module.Options[i] = tostring(v)
-                end
+				end
             end
 
 			return section:updateDropdown(module)
@@ -2184,7 +2179,7 @@ do
 		return options.value
 	end
 
-	function section:updateDropdown(module)
+	function section:updateDropdown(module, update)
 		local dropdown = module.Instance
 		local options = module.Options
 
@@ -2202,7 +2197,7 @@ do
 			end
 		end
 
-		for i, value in pairs(options.list or {}) do
+		for i, value in pairs(not update and options.list or {}) do
 			local button = utility:Create("ImageButton", {
 				Parent = dropdown.List.Frame,
 				BackgroundTransparency = 1,
@@ -2232,8 +2227,7 @@ do
 				options.callback(value)
 
 				options.title = value
-				options.list = nil
-				self:updateDropdown(module)
+				self:updateDropdown(module, value)
 			end)
 
 			entries = entries + 1
@@ -2242,7 +2236,7 @@ do
 		local frame = dropdown.List.Frame
 
 		utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
-		utility:Tween(dropdown.Search.Button, {Rotation = options.list and 180 or 0}, 0.3)
+		utility:Tween(dropdown.Search.Button, {Rotation = not update and 180 or 0}, 0.3)
 
 		if entries > 3 then
 
