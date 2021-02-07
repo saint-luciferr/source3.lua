@@ -2078,19 +2078,19 @@ do
 		}
 
 		local frame = toggle.Button.Frame
-		options.value = options.value and "Out" or "In"
+		local selectedPosition = options.toggled and "Out" or "In"
 
 		toggle.Title.Text = module.Options.title
 
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -9),
-			Position = position[options.toggled] + UDim2.new(0, 0, 0, 2.5)
+			Position = position[selectedPosition] + UDim2.new(0, 0, 0, 2.5)
 		}, 0.2)
 
 		wait(0.1)
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -4),
-			Position = position[options.toggled]
+			Position = position[selectedPosition]
 		}, 0.1)
 	end
 
