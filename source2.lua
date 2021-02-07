@@ -1880,7 +1880,7 @@ do
 
 		search.TextBox:GetPropertyChangedSignal("Text"):Connect(function()
 			if focused then
-				local _list = utility:Sort(search.TextBox.Text, data.list)
+				local _list = utility:Sort(search.TextBox.Text, this.list)
 				this.list = #_list ~= 0 and _list
 
 				this.title = nil
