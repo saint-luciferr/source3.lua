@@ -1884,14 +1884,14 @@ do
 		end)
 
 		function this:Update(dataOptions)
-			-- // Overwriting settings
+		    -- // Overwriting settings
             for i,v in pairs(dataOptions) do
                 if (i ~= "Update" and module.Options[i]) then
-                    module.Options[i] = tostring(v)
+                    module.Options[i] = (i == "list" and v or tostring(v))
 				end
             end
 
-			return section:updateDropdown(module)
+			return section:updateDropdown(module, false, dataOptions["list"])
 		end
 
 		if (this.default) then
@@ -2179,7 +2179,7 @@ do
 		return options.value
 	end
 
-	function section:updateDropdown(module, update)
+	function section:updateDropdown(module, update, noOpen)
 		local dropdown = module.Instance
 		local options = module.Options
 
@@ -2235,8 +2235,10 @@ do
 
 		local frame = dropdown.List.Frame
 
-		utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
-		utility:Tween(dropdown.Search.Button, {Rotation = not update and 180 or 0}, 0.3)
+		if (not noOpen) then
+			utility:Tween(dropdown, {Size = UDim2.new(1, 0, 0, (entries == 0 and 30) or math.clamp(entries, 0, 3) * 34 + 38)}, 0.3)
+			utility:Tween(dropdown.Search.Button, {Rotation = not update and 180 or 0}, 0.3)
+		end
 
 		if entries > 3 then
 
