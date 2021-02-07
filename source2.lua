@@ -1886,7 +1886,15 @@ do
 		function this:Update(dataOptions)
 		    -- // Overwriting settings
             for i,v in pairs(dataOptions) do
-                if (i ~= "Update" and module.Options[i]) then
+				if (i ~= "Update" and module.Options[i]) then
+					-- // Making everything in the list a string
+					if (i == "list") then
+						for a, x in pairs(v) do
+							v[a] = tostring(x)
+						end
+					end
+
+					-- // Setting it
                     module.Options[i] = (i == "list" and v or tostring(v))
 				end
             end
