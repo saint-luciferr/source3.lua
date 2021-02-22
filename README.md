@@ -19,4 +19,4 @@
 - No error handling, following doc should be enough
 - Bugs exist, good luck fixing them
 - Ui objects are made so custom resizing can be easily implemented if wished
-- Didn't implement dropdown callback correctly, feel free to fix the crashes
+- Didn't implement dropdown (and color pickers idk) callback correctly, feel free to fix the crashes
