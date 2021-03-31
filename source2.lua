@@ -109,10 +109,12 @@ do
 		self.keybinds = {}
 		self.ended = {}
 
-		input.InputBegan:Connect(function(key)
+		input.InputBegan:Connect(function(key, gameProcessedEvent)
 			if self.keybinds[key.KeyCode] then
 				for i, bind in pairs(self.keybinds[key.KeyCode]) do
-					bind()
+					if (bind.gameProcessedEvent == gameProcessedEvent) then
+						bind.callback()
+					end
 				end
 			end
 		end)
@@ -126,11 +128,11 @@ do
 		end)
 	end
 
-	function utility:BindToKey(key, callback)
+	function utility:BindToKey(key, callback, gameProcessedEvent)
 
 		self.keybinds[key] = self.keybinds[key] or {}
 
-		self.keybinds[key][#self.keybinds[key] + 1] = callback
+		self.keybinds[key][#self.keybinds[key] + 1] = {callback = callback, gameProcessedEvent = gameProcessedEvent or false}
 
 		return {
 			UnBind = function()
@@ -948,6 +950,7 @@ do
 		local this = {}
 		this.title = data.title or "nil text"
 		this.key = data.key or Enum.KeyCode.Unknown
+		this.gameProcessedEvent = data.gameProcessedEvent or false
 		this.callback = data.callback or function() end
 		this.changedCallback = data.changedCallback or function() end
 
@@ -2127,7 +2130,7 @@ do
 		end
 
 		if options.key ~= Enum.KeyCode.Unknown then
-			self.binds[keybind].connection = utility:BindToKey(options.key, bind.callback)
+			self.binds[keybind].connection = utility:BindToKey(options.key, bind.callback, options.gameProcessedEvent)
 			text.Text = input:GetStringForKeyCode(options.key)
 		else
 			text.Text = "Unknown"
