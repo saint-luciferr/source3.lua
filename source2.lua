@@ -1595,6 +1595,7 @@ do
 		this.min = data.min or 0
 		this.default = data.default or this.min
 		this.max = data.max or 100
+		this.precision = data.precision or 0
 		this.value = this.default
 		this.callback = data.callback or function() end
 
@@ -2183,8 +2184,18 @@ do
 			percent = (options.value - options.min) / (options.max - options.min)
 		end
 
+		local function round(what, precision)
+			if (precision == 0) then
+				return math.floor(what)
+			elseif (precision == -1) then
+				return what
+			else
+				return math.floor(what * math.pow(10, precision) + 0.5) / math.pow(10, precision)
+			end
+		end
+
 		percent = math.clamp(percent, 0, 1)
-		options.value = options.value or math.floor(options.min + (options.max - options.min) * percent)
+		options.value = options.value or round(options.min + (options.max - options.min) * percent, options.precision)
 
 		slider.TextBox.Text = options.value
 		utility:Tween(bar.Fill, {Size = UDim2.new(percent, 0, 1, 0)}, 0.1)
