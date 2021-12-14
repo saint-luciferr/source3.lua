@@ -487,10 +487,10 @@ do
 				Size = UDim2.new(0, 511, 0, 428),
 				Position = self.position
 			}, 0.2)
-			wait(0.2)
+			wait(0.001)
 
 			utility:Tween(topbar, {Size = UDim2.new(1, 0, 0, 38)}, 0.2)
-			wait(0.2)
+			wait(0.001)
 
 			container.ClipsDescendants = false
 			self.position = nil
@@ -505,7 +505,7 @@ do
 				Size = UDim2.new(0, 511, 0, 0),
 				Position = self.position + UDim2.new(0, 0, 0, 428)
 			}, 0.2)
-			wait(0.2)
+			wait(0.001)
 		end
 
 		self.toggling = false
@@ -724,7 +724,7 @@ do
 			text.TextSize = 0
 			utility:Tween(button.Title, {TextSize = 14}, 0.2)
 
-			wait(0.2)
+			wait(0.001)
 			utility:Tween(button.Title, {TextSize = 12}, 0.2)
 
 			this.callback()
@@ -1996,10 +1996,10 @@ do
 				utility:Tween(pageSection.container.Title, {TextTransparency = 0}, 0.1)
 				pageSection:Resize(true)
 
-				wait(0.05)
+				wait(0.001)
 			end
 
-			wait(0.05)
+			wait(0.001)
 			selectedPage:Resize(true)
 		else
 			-- page button
@@ -2017,7 +2017,7 @@ do
 				utility:Tween(pageSection.container.Title, {TextTransparency = 1}, 0.1)
 			end
 
-			wait(0.1)
+			wait(0.001)
 
 			selectedPage.lastPosition = selectedPage.container.CanvasPosition.Y
 			selectedPage:Resize()
@@ -2100,7 +2100,7 @@ do
 			Position = position[selectedPosition] + UDim2.new(0, 0, 0, 2.5)
 		}, 0.2)
 
-		wait(0.1)
+		wait(0.001)
 		utility:Tween(frame, {
 			Size = UDim2.new(1, -22, 1, -4),
 			Position = position[selectedPosition]
